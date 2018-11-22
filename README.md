@@ -3,8 +3,9 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 
 [Brief](https://en.wikipedia.org/wiki/AWK#History) and [more detailed](http://www.skeeve.com/gnu-awk-and-me-2014.pdf) AWK history.
 
+# Full documentation, guides and books
 
-# Quick How-tos
+## Quick How-tos
  * [30 Examples for Awk Command in Text Processing](https://likegeeks.com/awk-command/)
  * [My best AWK tricks](https://blog.jpalardy.com/posts/my-best-awk-tricks/)
  * [Awk Tutorial](https://www.tutorialspoint.com/awk/)
@@ -13,15 +14,17 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [How to Use Awk and Regular Expressions to Filter Text or String in Files](https://www.tecmint.com/use-linux-awk-command-to-filter-text-string-in-files/)
  * [AWK command in Unix/Linux with examples](https://www.geeksforgeeks.org/awk-command-unixlinux-examples/)
  * [Some Simple Examples](https://www.gnu.org/software/gawk/manual/html_node/Very-Simple.html)
- 
- 
-# Full documentation and guides
+ * [Awk - A Tutorial and Introduction](http://www.grymoire.com/Unix/Awk.html)
+
+
+## Documentation
+
  * [Gawk: Effective AWK Programming](https://www.gnu.org/software/gawk/manual/)
  * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/)
  * man pages: [mawk](http://invisible-island.net/mawk/manpage/mawk.html), [gawk](https://linux.die.net/man/1/gawk)
 
 
-# Books
+## Books
  * [Effective awk Programming: Universal Text Processing and Pattern Matching](https://www.amazon.com/Effective-awk-Programming-Universal-Processing/dp/1491904615/)
  * [sed & awk](https://www.amazon.com/Sed-Awk-Dale-Dougherty/dp/1565922255/)
  * [The AWK Programming Language](https://www.amazon.com/AWK-Programming-Language-Alfred-Aho/dp/020107981X/)
