@@ -16,6 +16,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [Some Simple Examples](https://www.gnu.org/software/gawk/manual/html_node/Very-Simple.html)
  * [Awk - A Tutorial and Introduction](http://www.grymoire.com/Unix/Awk.html)
  * Awk by example [part 1](https://www.ibm.com/developerworks/library/l-awk1/index.html), [part 2](https://www.ibm.com/developerworks/library/l-awk2), [part 3](https://www.ibm.com/developerworks/library/l-awk3)
+ * [Awk Introduction and Resources](https://www.whoishostingthis.com/resources/awk/)
 
 
 ## Documentation
