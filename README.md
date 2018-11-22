@@ -26,6 +26,9 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [sed & awk](https://www.amazon.com/Sed-Awk-Dale-Dougherty/dp/1565922255/)
  * [The AWK Programming Language](https://www.amazon.com/AWK-Programming-Language-Alfred-Aho/dp/020107981X/)
  * [AWK Programming: Questions and Answers](https://www.amazon.co.uk/AWK-Programming-Questions-George-Duckett-ebook/dp/B00RWVOLTG)
+ * [AWK programming](https://books.google.cz/books/about/Awk_Programming.html?id=69oEAAAACAAJ)
+ * [Learning AWK Programming: A fast, and simple cutting-edge utility for text-processing on the Unix-like environment](https://www.amazon.com/Learning-AWK-Programming-cutting-edge-text-processing-ebook/dp/B07BT98HDS)
+ * [The awk language: Linux Intermediate](https://books.google.com/books?id=pUO1CwAAQBAJ&dq=bibliogroup:%22Linux+Intermediate%22)
 
   
 # AWK libraries
