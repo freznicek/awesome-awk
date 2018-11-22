@@ -1,5 +1,5 @@
 # awesome-awk
-A curated list of awesome AWK frameworks, libraries, software and resources
+A curated list of awesome AWK frameworks, libraries, software and resources. [AWK History](https://en.wikipedia.org/wiki/AWK#History).
 
 # Quick How-tos
  * TODO
