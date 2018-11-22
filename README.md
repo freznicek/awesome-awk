@@ -22,6 +22,6 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [dubiousjim/awkenough](https://github.com/dubiousjim/awkenough)
  
 # Nowadays [AWK Implementations](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations)
- * [gawk](https://savannah.gnu.org/projects/gawk/)([source-code](http://git.savannah.gnu.org/cgit/gawk.git))
- * [mawk](http://invisible-island.net/mawk/mawk.html) ([source-code](https://github.com/ThomasDickey))
+ * [gawk project](https://savannah.gnu.org/projects/gawk/) ([source-code](http://git.savannah.gnu.org/cgit/gawk.git))
+ * [mawk project](http://invisible-island.net/mawk/mawk.html) ([source-code](https://github.com/ThomasDickey))
 
