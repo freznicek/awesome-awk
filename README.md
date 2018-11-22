@@ -8,7 +8,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources. [AW
  * [Gawk: Effective AWK Programming](https://www.gnu.org/software/gawk/manual/)
  * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/)
 
-# Guides
+# Books
  * [Effective awk Programming: Universal Text Processing and Pattern Matching](https://www.amazon.com/Effective-awk-Programming-Universal-Processing/dp/1491904615/)
  * [sed & awk](https://www.amazon.com/Sed-Awk-Dale-Dougherty/dp/1565922255/)
  * [The AWK Programming Language](https://www.amazon.com/AWK-Programming-Language-Alfred-Aho/dp/020107981X/)
