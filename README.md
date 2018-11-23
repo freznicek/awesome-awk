@@ -7,6 +7,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 
 ## Quick How-tos
  * [30 Examples for Awk Command in Text Processing](https://likegeeks.com/awk-command/)
+ * [AWK crashcourse](https://github.com/freznicek/awk-crashcourse/blob/master/README.md)
  * [My best AWK tricks](https://blog.jpalardy.com/posts/my-best-awk-tricks/)
  * [Awk Tutorial](https://www.tutorialspoint.com/awk/)
  * [How To Use the AWK language to Manipulate Text in Linux](https://www.digitalocean.com/community/tutorials/how-to-use-the-awk-language-to-manipulate-text-in-linux)
