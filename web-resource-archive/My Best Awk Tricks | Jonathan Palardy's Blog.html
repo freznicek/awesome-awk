@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>My Best Awk Tricks | Jonathan Palardy's Blog</title>
+
+  <meta name="author" content="Jonathan Palardy">
+  <meta name="description" content="Jonathan Palardy's blog about technology">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="icon" type="image/png" href="https://secure.gravatar.com/avatar/ecfd1bdc5d3aab1e40f25658817712ba">
+
+  <link rel="alternate" type="application/rss+xml" href="https://blog.jpalardy.com/atom.xml">
+
+  <link rel="stylesheet" href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/fontawesome.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/base.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/pygments.css" type="text/css">
+  <link media="only screen and (max-device-width: 480px)" href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/mobile.css" type="text/css" rel="stylesheet">
+  <link media="only screen and (device-width: 768px)" href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/mobile.css" type="text/css" rel="stylesheet">
+  <link href="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/css.css" rel="stylesheet" type="text/css">
+  <link rel="apple-touch-icon" href="https://secure.gravatar.com/avatar/ecfd1bdc5d3aab1e40f25658817712ba?s=144">
+<script charset="utf-8" src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/button.js"></script></head>
+
+<body>
+  <section class="sidebar">
+    <a href="https://blog.jpalardy.com/">
+      <img src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/ecfd1bdc5d3aab1e40f25658817712ba.png" class="avatar" alt="jpalardy's avatar" width="80" height="80">
+    </a>
+
+    <section class="name">
+      <a href="https://blog.jpalardy.com/">
+        <span id="fname">Jonathan</span>
+        <span id="lname">Palardy</span>
+      </a>
+    </section>
+
+    <section class="meta">
+      <table>
+        <tbody><tr>
+          <td><a href="https://github.com/jpalardy" target="_blank"><i class="icon icon-github"></i></a></td>
+          <td><a href="https://github.com/jpalardy" target="_blank"> GitHub</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://twitter.com/jpalardy" target="_blank"><i class="icon icon-twitter"></i></a></td>
+          <td><a href="https://twitter.com/jpalardy" target="_blank">Twitter</a></td>
+        </tr>
+        <tr>
+          <td><a href="mailto:jonathan.palardy@gmail.com" target="_blank"><i class="icon icon-envelope"></i></a></td>
+          <td><a href="mailto:jonathan.palardy@gmail.com" target="_blank">Email</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://blog.jpalardy.com/atom.xml"><i class="icon icon-rss"></i></a></td>
+          <td><a href="https://blog.jpalardy.com/atom.xml">RSS</a></td>
+        </tr>
+      </tbody></table>
+    </section>
+
+    <section class="sections">
+      <ul>
+        <li><a href="https://blog.jpalardy.com/about">about</a></li>
+        <li><a href="https://blog.jpalardy.com/">posts</a></li>
+      </ul>
+    </section>
+  </section>
+
+  <section class="content">
+  <h1>
+    <a href="https://blog.jpalardy.com/posts/my-best-awk-tricks/">My Best Awk Tricks</a>
+  </h1>
+
+  <section class="byline">
+    June 29, 2016
+  </section>
+
+  <p>This is a wrap-up of my AWK tutorial series.<br>
+You can start with <a href="https://blog.jpalardy.com/posts/why-learn-awk/">why learn awk</a>.<br>
+Or you can jump straight to <a href="https://blog.jpalardy.com/posts/awk-tutorial-part-1/">part 1</a> of the tutorial.</p>
+
+<p>If you’ve read the tutorial, the amount of <em>magic</em> should be down to a minimum.</p>
+
+<h2 id="disclaimers">Disclaimers</h2>
+
+<p>Before you ask: I have a cheatsheet, and that’s where I keep the recipes that
+follow. I’m just human – I copy and paste what I need.</p>
+
+<p>I’m not the author of these recipes; I only collected them over time.</p>
+
+<p>Allow me to skip the <code class="highlighter-rouge">cat FILE |</code> or <code class="highlighter-rouge">awk 'YOUR SCRIPT' FILE</code> parts. By now,
+I trust you to figure that out.</p>
+
+<p>Which specific columns make sense for your specific needs will depend on you.
+I might use <code class="highlighter-rouge">$0</code> or <code class="highlighter-rouge">$1</code>, but you’ll have to fix those. That’s what I do after I paste.</p>
+
+<h2 id="uniq-without-sort">uniq without sort</h2>
+
+<p>I posted about this <a href="https://blog.jpalardy.com/posts/unsorted-uniq/">before</a>, but it’s still my favorite:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>awk <span class="s1">'!seen[$0]++'</span></code></pre></figure>
+
+<p>The action is <code class="highlighter-rouge">print</code>, of course. The condition is <em>true</em> the first time a
+string is put into the array. It follows that subsequent appearances won’t be
+printed.</p>
+
+<p>Related to the above, print duplicates (without sort):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>awk <span class="s1">'++seen[$0] == 2'</span></code></pre></figure>
+
+<p>Print the 2nd time you see a string.</p>
+
+<h2 id="group-counts-or-sums">Group counts or sums</h2>
+
+<p>This was covered in the tutorial, but it’s damn useful:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>awk <span class="s1">'{ groups[$0]++ }     END { for (k in groups) print groups[k], k }'</span> <span class="c"># count</span>
+<span class="nv">$ </span>awk <span class="s1">'{ groups[$1] += $2 } END { for (k in groups) print groups[k], k }'</span> <span class="c"># sum</span></code></pre></figure>
+
+<p>Accumulate in an array, report at the <code class="highlighter-rouge">END</code>. In both cases, pay attention to the columns you use.</p>
+
+<h2 id="set-operations-union-intersection-difference">Set operations: union, intersection, difference</h2>
+
+<p>If you have multiple files, and you consider their content as sets, you can generate
+a bunch of interesting subsets.</p>
+
+<h3 id="union">Union</h3>
+
+<p><code class="highlighter-rouge">cat</code> all the files and use the “uniq without sort” recipe from above :-)</p>
+
+<h3 id="intersection">Intersection</h3>
+
+<p>For both intersection and difference, you need to accumulate from one file and
+process the other file.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>awk <span class="s1">'NR == FNR {lut[$0] = 1; next} $0 in lut {print}'</span> FILE1 FILE2</code></pre></figure>
+
+<p>The main trick is to realize that <code class="highlighter-rouge">NR</code> and <code class="highlighter-rouge">FNR</code> will, by definition, only be equal
+during the processing of the first file. The <code class="highlighter-rouge">next</code> statement ensures the rest
+of the one-liner is skipped. We load the lut (LookUp Table) array with the relevant
+parts from the first file.</p>
+
+<p>Why use <code class="highlighter-rouge">$0 in lut</code> instead of <code class="highlighter-rouge">lut[$0]</code> for the condition? That’s an
+optimization I learned the hard way: even a <em>miss</em> lookup in <code class="highlighter-rouge">lut[$0]</code> will
+instantiate the array location to an empty string – and over the processing of
+HUGE files, you’ll eventually consume a lot of memory.</p>
+
+<p><em>It takes a LOT for this problem to <strong>be</strong> a problem with the amount of memory
+that computers have nowadays … that’s why I didn’t cover the <code class="highlighter-rouge">in</code> operator in
+the tutorial.</em></p>
+
+<h3 id="difference">Difference</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>awk <span class="s1">'NR == FNR {lut[$0] = 1; next} !($0 in lut) {print}'</span> FILE1 FILE2</code></pre></figure>
+
+<p>This operation isn’t symmetrical: you’re removing the entries from FILE1 from
+FILE2. Switch the files around to get the other set difference.</p>
+
+<h2 id="easy-performance">Easy performance</h2>
+
+<p>If your AWK script isn’t fast enough, it might be time to consider whether AWK
+is the right tool for the job. How many GB of data are you piping through it?!</p>
+
+<p>That being said, I know 2 tricks to speed up AWK:</p>
+
+<h3 id="drop-unicode-support">Drop unicode support</h3>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ LC_ALL</span><span class="o">=</span>C awk <span class="s1">'YOUR SCRIPT'</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">LC_ALL</code> variable forced to C will drop unicode support and, sometimes, greatly
+speed up processing.</p>
+
+<h3 id="use-mawk">Use mawk</h3>
+
+<p>There are many variants of AWK, and the one you’re using is <em>probably</em> GNU AWK.<br>
+There are others: <a href="http://invisible-island.net/mawk/">mawk</a> is one of the
+FAST one.</p>
+
+<ul>
+  <li>is mawk already installed?</li>
+  <li>how much of a pain will it be to install?</li>
+  <li>will my AWK script work without modifications?</li>
+</ul>
+
+<p>These are all good questions. In all likelihood:</p>
+
+<ul>
+  <li>mawk won’t be installed…</li>
+  <li>it will be easy to install (<code class="highlighter-rouge">brew install mawk</code>, for example)</li>
+  <li>your <em>unmodified</em> AWK script will just run FASTER</li>
+</ul>
+
+<p>If you’re hitting the performance wall, giving mawk a chance might be worth it.</p>
+
+
+
+  <section class="meta">
+    <h3>Discuss on Twitter</h3>
+    <section style="margin-left: -4px">
+      <iframe id="twitter-widget-1" scrolling="no" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 61px; height: 20px;" title="Twitter Tweet Button" src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/tweet_button.html" frameborder="0"></iframe>
+      <iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 115px; height: 20px;" title="Twitter Follow Button" src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/follow_button.html" data-screen-name="jpalardy" frameborder="0"></iframe>
+      <script type="text/javascript" async="" src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/ga.js"></script><script src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/widgets.js" type="text/javascript"></script>
+    </section>
+  </section>
+</section>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43319424-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+
+
+<iframe scrolling="no" allowtransparency="true" src="My%20Best%20Awk%20Tricks%20|%20Jonathan%20Palardy's%20Blog_files/widget_iframe.html" title="Twitter settings iframe" style="display: none;" frameborder="0"></iframe><iframe id="rufous-sandbox" scrolling="no" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" title="Twitter analytics iframe" frameborder="0"></iframe></body></html>

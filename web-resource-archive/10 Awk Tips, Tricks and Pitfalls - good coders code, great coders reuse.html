@@ -1,0 +1,3354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>10 Awk Tips, Tricks and Pitfalls - good coders code, great coders reuse</title>
+
+    <meta name="description" content="Hi guys and girls, this is the first and only guest post on my blog. It's written by Waldner from #awk on FreeNode IRC Network. He works as a sysadmin and does shell scripting as a hobby. Waldner will be happy to take any questions about the article. You can ...">
+
+    <link rel="stylesheet" type="text/css" href="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/reset.css" media="screen, projection">
+    <link rel="stylesheet" type="text/css" href="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/catonmat.css" media="screen, projection">
+    <!--[if lte IE 7]>
+    <style type="text/css">
+      #wrapper { margin-top: -1px; }
+    </style>
+    <![endif]-->
+
+    <script src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/osd.js"></script><script src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/ca-pub-0433925538517663.js"></script><script src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/show_ads_impl.js" id="google_shimpl"></script><script src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/1256130351091056" async=""></script><script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/fbevents.js"></script><script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/analytics.js"></script><script type="text/javascript" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/jquery-1.js"></script>
+    <script type="text/javascript" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/catonmat.js"></script>
+
+    
+
+
+    <link rel="alternate" type="application/atom+xml" title="catonmat feed" href="http://www.catonmat.net/feed/">
+    <link rel="shortcut icon" href="http://www.catonmat.net/favicon.ico" type="image/x-icon"> 
+    <link rel="icon" href="http://www.catonmat.net/favicon.ico" type="image/x-icon"> 
+
+    <meta name="google-site-verification" content="aXAUFOiWFF_OiqrmlUrhZN1sqJf5tnuYdMDpuXc1w8w">
+    <meta name="msvalidate.01" content="CD96F4810C690ED2612624D7D2A0C5E8">
+  <link rel="preload" href="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/integrator_002.js" as="script"><script type="text/javascript" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/integrator_002.js"></script><link rel="preload" href="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/integrator.js" as="script"><script type="text/javascript" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/integrator.js"></script><link rel="preload" href="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/show_ads_impl.js" as="script"></head>
+  <body>
+    <div id="container">
+      <div id="header">
+        
+  <div id="tabs">
+  <ul>
+    <li><a href="http://www.catonmat.net/">Home</a></li>
+    <li><a href="http://www.catonmat.net/books/">Books</a></li>
+    <li><a href="http://www.catonmat.net/projects/">Projects</a></li>
+    <li><a href="http://www.catonmat.net/sitemap/">Sitemap</a></li>
+    <li><a href="http://www.catonmat.net/feedback/">Feedback</a></li>
+    <li><a href="http://www.catonmat.net/about/">About Me</a></li>
+    <li><a class="advertise" href="http://www.catonmat.net/consulting/">Consulting</a></li>
+    <li><a class="advertise" href="http://www.catonmat.net/advertise/">Advertising</a></li>
+  </ul>
+  <!--
+  <div id="tab-ad">
+  </div>
+  -->
+</div>
+<div class="clear"></div>
+<div id="hspace">
+  <div id="first">
+    <a href="http://www.catonmat.net/" class="wide" title="Return to good coders code, great coders reuse">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/good-coders-code-great-coders-reuse.png" alt="good coders code, great coders reuse">
+    </a>
+    <div id="first-real">
+      <table valign="middle" width="100%" height="145">
+        <tbody><tr>
+          <td>
+            <p class="quote">Good judgement comes from experience, and experience comes from bad judgement.</p>
+            <!-- <span class="quotes"><a href="/quotes/" title="more programming related quotes">more quotes</a></span>-->
+            <p class="author">Fred Brooks</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div id="second">
+    <div id="second-real">
+      <div id="announcements">
+        <div id="browserling">
+          <p class="title"><a href="http://www.catonmat.net/blog/launching-browserling/" title="I am doing a startup!">I am doing a startup!</a></p>
+          <p class="browserling-logo"><a href="http://www.browserling.com/" title="Cross-browser testing"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/browserling-logo-180px.png" alt="Browserling"></a></p>
+          <p>Cross-browser testing from your browser!</p>
+        </div>
+        <div id="books">
+          <p class="title"><a href="http://www.catonmat.net/blog/perl-one-liners-no-starch-press/">I have written my fourth book!</a>
+          </p><p class="awk-logo"><a href="http://www.catonmat.net/blog/perl-one-liners-no-starch-press/" title="Perl One-Liners by No Starch Press"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/perl-book-no-starch-press-180x61.png" alt="Perl Book"></a></p>
+          <p>Be faster than Larry Wall in the shell!</p>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+
+      </div>
+      <div id="wrapper">
+        <div id="content">
+          
+
+
+
+
+
+
+
+
+
+
+<div class="welcome">
+  <div class="twitter">
+    <p><a href="http://twitter.com/pkrumins" title="Peteris Krumins on Twitter"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/twitter-16x16.gif">Follow me on Twitter</a> for my latest adventures!</p>
+  </div>
+</div>
+
+
+
+<div class="page">
+  <div class="header">
+    <span class="category next"><a href="http://www.catonmat.net/category/awk-programming" title="See all posts in category &quot;Awk Programming&quot;">Awk Programming</a></span>
+
+    <span class="commentsc">
+        <a href="http://www.catonmat.net/blog/ten-awk-tips-tricks-and-pitfalls/#comments" title="53 people have commented on &quot;10 Awk Tips, Tricks and Pitfalls&quot;"><strong>53</strong> Comments</a>
+    </span>
+
+    <span class="date right">October 23, 2008</span>
+
+    <div class="clear"></div>
+    <div class="hrb"></div>
+    <h1><a href="http://www.catonmat.net/blog/ten-awk-tips-tricks-and-pitfalls/" title="10 Awk Tips, Tricks and Pitfalls">10 Awk Tips, Tricks and Pitfalls</a></h1>
+    <!--
+    <div class="hr lighter"></div>
+    -->
+  </div>
+
+
+  <div class="content">
+    
+
+
+    
+
+    
+
+    
+
+    
+      <div style="margin-bottom: 10px"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/awk-owl-tips-and-tricks.jpg" alt="Awk Tips and Tricks" class="post-icon" align="left"><div style="float: right; margin-right:20px">
+<script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/adsbygoogle.js"></script>
+<!-- catonmat before article (blue) 336x280, created 1/23/10 -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-0433925538517663" data-ad-slot="8733420369" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:336px;height:280px;" width="336" height="280" frameborder="0"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+<div class="clear"></div>
+</div>
+<p>Hi guys and girls, this is <strong>the <u>first and only</u> guest post</strong> on my blog. It's written by <strong>Waldner</strong>
+ from #awk on FreeNode IRC Network. He works as a sysadmin and does 
+shell scripting as a hobby. Waldner will be happy to take any questions 
+about the article. You can ask them in the comments of this post or on 
+IRC.</p>
+<p>This article takes a look at ten tips, tricks and pitfalls in Awk 
+programming language. They are mostly taken from the discussions in #awk
+ IRC channel. Here they are:</p>
+<ul>	<li>1. <a href="#awk_be_idiomatic">Be idiomatic!</a></li>
+	<li>2. <a href="#awk_shorten_pipes">Pitfall: shorten pipelines</a></li>
+	<li>3. <a href="#awk_ranges">Print lines using ranges</a></li>
+	<li>4. <a href="#awk_split">Split file on patterns</a></li>
+	<li>5. <a href="#awk_locale">Locale-based pitfalls</a></li>
+	<li>6. <a href="#awk_csv">Parse CSV</a></li>
+	<li>7. <a href="#awk_ipv4">Pitfall: validate an IPv4 address</a></li>
+	<li>8. <a href="#awk_same_data">Check whether two files contain the same data</a></li>
+	<li>9. <a href="#awk_contexts">Pitfall: contexts and variable types in awk</a></li>
+	<li>10. <a href="#awk_pulling">Pulling out things</a></li>
+</ul>
+<h2 style="margin-bottom:10px"><a name="awk_be_idiomatic">Be idiomatic!</a></h2>
+<p><strong>Update:</strong> Mr. Waldner just notified me that he has improved the tips on being idiomatic. See "<a href="http://backreference.org/2010/02/10/idiomatic-awk/">Idiomatic Awk</a>" on his website!</p>
+<p>In this paragraph, we give some hints on how to write more idiomatic 
+(and usually shorter and more efficient) awk programs. Many awk programs
+ you're likely to encounter, especially short ones, make large use of 
+these notions.</p>
+<p>Suppose one wants to print all the lines in a file that match some 
+pattern (a kind of awk-grep, if you like). A reasonable first shot is 
+usually something like</p>
+<pre>awk '{if ($0 ~ /pattern/) print $0}'
+</pre>
+<p>That works, but there are a number of things to note.</p>
+<p>The first thing to note is that it is not structured according to the awk's definition of a program, which is</p>
+<pre>condition { actions }
+</pre>
+<p>Our program can clearly be rewritten using this form, since both the condition and the action are very clear here:</p>
+<pre>awk '$0 ~ /pattern/ {print $0}'
+</pre>
+<p>Our next step in the perfect awk-ification of this program is to note that <strong>/pattern/</strong> is the same as <strong>$0 ~ /pattern/</strong>. That is, when awk sees a single regular expression used as an expression, it implicitly applies it to <strong>$0</strong>, and returns success if there is a match. Then we have:</p>
+<pre>awk '/pattern/ {print $0}'
+</pre>
+<p>Now, let's turn our attention to the action part (what's inside braces). <strong>print $0</strong> is a redundant statement, since <strong>print</strong> alone, by default, prints <strong>$0</strong>.</p>
+<pre>awk '/pattern/ {print}'
+</pre>
+<p>But now we note that, when it finds that a condition is true, and 
+there are no associated actions, awk performs a default action that is 
+(you guessed it) <strong>print</strong> (which we already know is equivalent to <strong>print $0</strong>). Thus we can do this:</p>
+<pre>awk '/pattern/'
+</pre>
+<p>Now we have reduced the initial program to its simplest (and more 
+idiomatic) form. In many cases, if all you want to do is print some 
+lines, according to a condition, you can write awk programs composed 
+only of a condition (although complex):</p>
+<pre>awk '(NR%2 &amp;&amp; /pattern/) || (!(NR%2) &amp;&amp; /anotherpattern/)'
+</pre>
+<p>That prints odd lines that match <strong>/pattern/</strong>, or even lines that match <strong>/anotherpattern/</strong>. Naturally, if you don't want to print <strong>$0</strong> but instead do something else, then you'll have to manually add a specific action to do what you want.</p>
+<p>From the above, it follows that</p>
+<pre>awk 1
+awk '"a"'   # single quotes are important!
+</pre>
+<p>are both awk programs that just print their input unchanged. 
+Sometimes, you want to operate only on some lines of the input 
+(according to some condition), but also want to print all the lines, 
+regardless of whether they were affected by your operation or not. A 
+typical example is a program like this:</p>
+<pre>awk '{sub(/pattern/,"foobar")}1'
+</pre>
+<p>This tries to replace "<strong>pattern</strong>" with "<strong>foobar</strong>". Whether or not the substitution succeeds, the always-true condition "<strong>1</strong>"
+ prints each line (you could even use "42", or "19", or any other 
+nonzero value if you want; "1" is just what people traditionally use). 
+This results in a program that does the same job as <strong>sed 's/pattern/foobar/'</strong>. Here are some examples of typical awk idioms, using only conditions:</p>
+<pre>awk 'NR % 6'            # prints all lines except those divisible by 6
+awk 'NR &gt; 5'            # prints from line 6 onwards (like tail -n +6, or sed '1,5d')
+awk '$2 == "foo"'       # prints lines where the second field is "foo"
+awk 'NF &gt;= 6'           # prints lines with 6 or more fields
+awk '/foo/ &amp;&amp; /bar/'    # prints lines that match /foo/ and /bar/, in any order
+awk '/foo/ &amp;&amp; !/bar/'   # prints lines that match /foo/ but not /bar/
+awk '/foo/ || /bar/'    # prints lines that match /foo/ or /bar/ (like grep -e 'foo' -e 'bar')
+awk '/foo/,/bar/'       # prints from line matching /foo/ to line matching /bar/, inclusive
+awk 'NF'                # prints only nonempty lines (or: removes empty lines, where NF==0)
+awk 'NF--'              # removes last field and prints the line
+awk '$0 = NR" "$0'      # prepends line numbers (assignments are valid in conditions)
+</pre>
+<p>Another construct that is often used in awk is as follows:</p>
+<pre>awk 'NR==FNR { # some actions; next} # other condition {# other actions}' file1 file2
+</pre>
+<p>This is used when processing two files. When processing more than one
+ file, awk reads each file sequentially, one after another, in the order
+ they are specified on the command line. The special variable <strong>NR</strong> stores the total number of input records read so far, regardless of how many files have been read. The value of <strong>NR</strong> starts at 1 and always increases until the program terminates. Another variable, <strong>FNR</strong>, stores the number of records read from the current file being processed. The value of <strong>FNR</strong>
+ starts from 1, increases until the end of the current file, starts 
+again from 1 as soon as the first line of the next file is read, and so 
+on. So, the condition "<strong>NR==FNR</strong>" is only true while awk is reading the first file. Thus, in the program above, the actions indicated by "<strong># some actions</strong>" are executed when awk is reading the first file; the actions indicated by "<strong># other actions</strong>" are executed when awk is reading the second file, if the condition in "<strong># other condition</strong>" is met. The "<strong>next</strong>" at the end of the first action block is needed to prevent the condition in "<strong># other condition</strong>" from being evaluated, and the actions in "<strong># other actions</strong>" from being executed while awk is reading the first file.</p>
+<p>There are really many problems that involve two files that can be solved using this technique. Here are some examples:</p>
+<pre># prints lines that are both in file1 and file2 (intersection)
+awk 'NR==FNR{a[$0];next} $0 in a' file1 file2
+</pre>
+<p>Here we see another typical idiom: <strong>a[$0]</strong> has the only purpose of creating the array element indexed by <strong>$0</strong>. During the pass over the first file, all the lines seen are remembered as indexes of the array <strong>a</strong>. The pass over the second file just has to check whether each line being read exists as an index in the array <strong>a</strong> (that's what the condition <strong>$0</strong> in a does). If the condition is true, the line is printed (as we already know).</p>
+<p>Another example. Suppose we have a data file like this</p>
+<pre>20081010 1123 xxx
+20081011 1234 def
+20081012 0933 xyz
+20081013 0512 abc
+20081013 0717 def
+...thousand of lines...
+</pre>
+<p>where "xxx", "def", etc. are operation codes. We want to replace each
+ operation code with its description. We have another file that maps 
+operation codes to human readable descriptions, like this:</p>
+<pre>abc withdrawal
+def payment
+xyz deposit
+xxx balance
+...other codes...
+</pre>
+<p>We can easily replace the opcodes in the data file with this simple awk program, that again uses the two-files idiom:</p>
+<pre># use information from a map file to modify a data file
+awk 'NR==FNR{a[$1]=$2;next} {$3=a[$3]}1' mapfile datafile
+</pre>
+<p>First, the array <strong>a</strong>, indexed by opcode, is populated 
+with the human readable descriptions. Then, it is used during the 
+reading of the second file to do the replacements. Each line of the 
+datafile is then printed after the substitution has been made.</p>
+<p>Another case where the two-files idiom is useful is when you have to 
+read the same file twice, the first time to get some information that 
+can be correctly defined only by reading the whole file, and the second 
+time to process the file using that information. For example, you want 
+to replace each number in a list of numbers with its difference from the
+ largest number in the list:</p>
+<pre># replace each number with its difference from the maximum
+awk 'NR==FNR{if($0&gt;max) max=$0;next} {$0=max-$0}1' file file
+</pre>
+<p>Note that we specify "<strong>file file</strong>" on the command line, so the file will be read twice.</p>
+<p><strong>Caveat</strong>: all the programs that use the two-files 
+idiom will not work correctly if the first file is empty (in that case, 
+awk will execute the actions associated to <strong>NR==FNR</strong> while reading the second file). To correct that, you can reinforce the <strong>NR==FNR</strong> condition by adding a test that checks that also <strong>FILENAME</strong> equals <strong>ARGV[1]</strong>.</p>
+<h2 style="margin-bottom:10px"><a name="awk_shorten_pipes">Pitfall: shorten pipelines</a></h2>
+<p>It's not uncommon to see lines in scripts that look like this:</p>
+<pre>somecommand | head -n +1 | grep foo | sed 's/foo/bar/' | tr '[a-z]' '[A-Z]' | cut -d ' ' -f 2
+</pre>
+<p>This is just an example. In many cases, you can use awk to replace parts of the pipeline, or even all of it:</p>
+<pre>somecommand | awk 'NR&gt;1 &amp;&amp; /foo/{sub(/foo/,"bar"); print toupper($2)}'
+</pre>
+<p>It would be nice to collect here many examples of pipelines that could be partially or completely eliminated using awk.</p>
+<h2 style="margin-bottom:10px"><a name="awk_ranges">Print lines using ranges</a></h2>
+<p>Yes, we all know that awk has builtin support for range expressions, like</p>
+<pre># prints lines from /beginpat/ to /endpat/, inclusive
+awk '/beginpat/,/endpat/'
+</pre>
+<p>Sometimes however, we need a bit more flexibility. We might want to 
+print lines between two patterns, but excluding the patterns themselves.
+ Or only including one. A way is to use these:</p>
+<pre># prints lines from /beginpat/ to /endpat/, not inclusive
+awk '/beginpat/,/endpat/{if (!/beginpat/&amp;&amp;!/endpat/)print}'
+
+# prints lines from /beginpat/ to /endpat/, not including /beginpat/
+awk '/beginpat/,/endpat/{if (!/beginpat/)print}'
+</pre>
+<p>It's easy to see that there must be a better way to do that, and in 
+fact there is. We can use a flag to keep track of whether we are 
+currently inside the interesting range or not, and print lines based on 
+the value of the flag. Let's see how it's done:</p>
+<pre># prints lines from /beginpat/ to /endpat/, not inclusive
+awk '/endpat/{p=0};p;/beginpat/{p=1}'
+
+# prints lines from /beginpat/ to /endpat/, excluding /endpat/
+awk '/endpat/{p=0} /beginpat/{p=1} p'
+
+# prints lines from /beginpat/ to /endpat/, excluding /beginpat/
+awk 'p; /endpat/{p=0} /beginpat/{p=1}'
+</pre>
+<p>All these programs just set <strong>p</strong> to <strong>1</strong> when <strong>/beginpat/</strong> is seen, and set <strong>p</strong> to <strong>0</strong> when <strong>/endpat/</strong> is seen. The crucial difference between them is where the bare "<strong>p</strong>"
+ (the condition that triggers the printing of lines) is located. 
+Depending on its position (at the beginning, in the middle, or at the 
+end), different parts of the desired range are printed. To print the 
+complete range (inclusive), you can just use the regular <strong>/beginpat/,/endpat/</strong> expression or use the flag technique, but reversing the order of the conditions and associated patterns:</p>
+<pre># prints lines from /beginpat/ to /endpat/, inclusive
+awk '/beginpat/{p=1};p;/endpat/{p=0}'
+</pre>
+<p>It goes without saying that while we are only printing lines here, 
+the important thing is that we have a way of selecting lines within a 
+range, so you can of course do anything you want instead of printing.</p>
+<h2 style="margin-bottom:10px"><a name="awk_split">Split file on patterns</a></h2>
+<p>Suppose we have a file like this</p>
+<pre>line1
+line2
+line3
+line4
+FOO1
+line5
+line6
+FOO2
+line7
+line8
+FOO3
+line9
+line10
+line11
+FOO4
+line12
+FOO5
+line13
+</pre>
+<p>We want to split this file on all the occurrences of lines that match <strong>/^FOO/</strong>,
+ and create a series of files called, for example, out1, out2, etc. File
+ out1 will contain the first 4 lines, out2 will contain "line5" and 
+"line6", etc. There are at least two ways to do that with awk:</p>
+<pre># first way, works with all versions of awk
+awk -v n=1 '/^FOO[0-9]*/{close("out"n);n++;next} {print &gt; "out"n}' file
+</pre>
+<p>Since we don't want to print anything when we see <strong>/^FOO/</strong>, but only update some administrative data, we use the "<strong>next</strong>" statement to tell awk to immediately start processing the next record. Lines that do not match <strong>/^FOO/</strong>
+ will instead be processed by the second block of code. Note that this 
+method will not create empty files if an empty section is found (eg, if 
+"FOO5\nFOO6" is found, the file "out5" will not be created). The "<strong>-v n=1</strong>" is used to tell awk that the variable "<strong>n</strong>" should be initialized with a value of <strong>1</strong>, so effectively the first output file will be called "<strong>out1</strong>".</p>
+<p>Another way (which however needs <strong>GNU awk</strong> to work) is to read one chunk of data at a time, and write that to its corresponding out file.</p>
+<pre># another way, needs GNU awk
+LC_ALL=C gawk -v RS='FOO[0-9]*\n' -v ORS= '{print &gt; "out"NR}' file
+</pre>
+<p>The above code relies on the fact that GNU awk supports assigning a regular expression to <strong>RS</strong> (the standard only allows a single literal character or an empty <strong>RS</strong>). That way, awk reads a series of "records", separated by the regular expression matching <strong>/FOO[0-9]*\n/</strong> (that is, the whole FOO... line). Since newlines are preserved in each section, we set <strong>ORS</strong>
+ to empty since we don't want awk to add another newline at the end of a
+ block. This method does create an empty file if an empty section is 
+encountered. On the downside, it's a bit fragile because it will produce
+ incorrect results if the regex used as <strong>RS</strong> appears somewhere else in the rest of the input.</p>
+<p>We will see other examples where gawk's support for regexes as <strong>RS</strong> is useful. Note that the last program used <strong>LC_ALL=C</strong> at the beginning...</p>
+<h2 style="margin-bottom:10px"><a name="awk_locale">Locale-based pitfalls</a></h2>
+<p>Sometimes awk can behave in an unexpected way if the locale is not C 
+(or POSIX, which should be the same). See for example this input:</p>
+<pre>-rw-r--r-- 1 waldner users 46592 2003-09-12 09:41 file1
+-rw-r--r-- 1 waldner users 11509 2008-10-07 17:42 file2
+-rw-r--r-- 1 waldner users 11193 2008-10-07 17:41 file3
+-rw-r--r-- 1 waldner users 19073 2008-10-07 17:45 file4
+-rw-r--r-- 1 waldner users 36332 2008-10-07 17:03 file5
+-rw-r--r-- 1 waldner users 33395 2008-10-07 16:53 file6
+-rw-r--r-- 1 waldner users 54272 2008-09-18 16:20 file7
+-rw-r--r-- 1 waldner users 20573 2008-10-07 17:50 file8
+</pre>
+<p>You'll recognize the familiar output of ls -l here. Let's use a non-C locale, say, <strong>en_US.utf8</strong>, and try an apparently innocuous operation like removing the first 3 fields.</p>
+<pre>$ LC_ALL=en_US.utf8 awk --re-interval '{sub(/^([^[:space:]]+[[:space:]]+){3}/,"")}1' file
+-rw-r--r-- 1 waldner users 46592 2003-09-12 09:41 file1
+-rw-r--r-- 1 waldner users 11509 2008-10-07 17:42 file2
+-rw-r--r-- 1 waldner users 11193 2008-10-07 17:41 file3
+-rw-r--r-- 1 waldner users 19073 2008-10-07 17:45 file4
+-rw-r--r-- 1 waldner users 36332 2008-10-07 17:03 file5
+-rw-r--r-- 1 waldner users 33395 2008-10-07 16:53 file6
+-rw-r--r-- 1 waldner users 54272 2008-09-18 16:20 file7
+-rw-r--r-- 1 waldner users 20573 2008-10-07 17:50 file8
+</pre>
+<p>It looks like <strong>sub()</strong> did nothing. Now change that to use the C locale:</p>
+<pre>$ LC_ALL=C awk --re-interval '{sub(/^([^[:space:]]+[[:space:]]+){3}/,"")}1' file
+users 46592 2003-09-12 09:41 file1
+users 11509 2008-10-07 17:42 file2
+users 11193 2008-10-07 17:41 file3
+users 19073 2008-10-07 17:45 file4
+users 36332 2008-10-07 17:03 file5
+users 33395 2008-10-07 16:53 file6
+users 54272 2008-09-18 16:20 file7
+users 20573 2008-10-07 17:50 file8
+</pre>
+<p>Now it works. Another localization issue is the behavior of bracket expressions matching, like for example <strong>[a-z]</strong>:</p>
+<pre>$ echo 'èòàù' | LC_ALL=en_US.utf8 awk '/[a-z]/'
+èòàù
+</pre>
+<p>This may or may not be what you want. When in doubt or when facing an apparently inexplicable result, try putting <strong>LC_ALL=C</strong> before your awk invocation.</p>
+<h2 style="margin-bottom:10px"><a name="awk_csv">Parse CSV</a></h2>
+<p><strong>Update:</strong> Mr. Waldner just notified me that he has improved this section of the article on his website. See "<a href="http://backreference.org/2010/04/17/csv-parsing-with-awk/">CVS Parsing With Awk</a>".</p>
+<p>This is another thing people do all the time with awk. Simple CSV 
+files (with fields separated by commas, and commas cannot appear 
+anywhere else) are easily parsed using <strong>FS=','</strong>. There can be spaces around fields, and we don't want them, like eg</p>
+<pre>    field1  ,   field2   , field3   , field4
+</pre>
+<p>Exploiting the fact that <strong>FS</strong> can be a regex, we could try something like <strong>FS='^ *| *, *| *$'</strong>. This can be problematic for two reasons:</p>
+<ul>	<li>actual data field might end up correponding either to awk's 
+fields 1 ... NF or 2 ... NF, depending on whether the line has leading 
+spaces or not;</li>
+	<li>for some reason, assigning that regex to <strong>FS</strong> produces unexpected results if fields have embedded spaces (anybody knows why?).</li>
+</ul>
+<p>In this case, it's probably better to parse using <strong>FS=','</strong> and remove leading and trailing spaces from each field:</p>
+<pre># FS=','
+for(i=1;i&lt;=NF;i++){
+  gsub(/^ *| *$/,"",$i);
+  print "Field " i " is " $i;
+}
+</pre>
+<p>Another common CSV format is</p>
+<pre>"field1","field2","field3","field4"
+</pre>
+<p>Assuming double quotes cannot occur in fields. This is easily parsed using <strong>FS='^"|","|"$'</strong> (or <strong>FS='","|"'</strong>
+ if you like), keeping in mind that the actual fields will be in 
+position 2, 3 ... NF-1. We can extend that FS to allow for spaces around
+ fields, like eg</p>
+<pre>   "field1"  , "field2",   "field3" , "field4"
+</pre>
+<p>by using <strong>FS='^ *"|" *, *"|" *$'</strong>. Usable fields will still be in positions 2 ... NF-1. Unlike the previous case, here that <strong>FS</strong> regex seems to work fine. You can of course also use <strong>FS=','</strong>, and remove extra characters by hand:</p>
+<pre># FS=','
+for(i=1;i&lt;=NF;i++){
+  gsub(/^ *"|" *$/,"",$i);
+  print "Field " i " is " $i;
+}
+</pre>
+<p>Another CSV format is similar to the first CSV format above, but 
+allows for field to contain commas, provided that the field is quoted:</p>
+<pre> field1, "field2,with,commas"  ,  field3  ,  "field4,foo"
+</pre>
+<p>We have a mixture of quoted and unquoted fields here, which cannot parsed directly by any value of <strong>FS</strong> (that I know of, at least). However, we can still get the fields using <strong>match()</strong> in a loop (and cheating a bit):</p>
+<pre>$0=$0",";                                  # yes, cheating
+while($0) {
+  match($0,/[^,]*,| *"[^"]*" *,/);            
+  sf=f=substr($0,RSTART,RLENGTH);          # save what matched in sf
+  gsub(/^ *"?|"? *,$/,"",f);               # remove extra stuff
+  print "Field " ++c " is " f;
+  sub(sf,"");                              # "consume" what matched
+}
+</pre>
+<p>As the complexity of the format increases (for example when escaped 
+quotes are allowed in fields), awk solutions become more fragile. 
+Although I should not say this here, for anything more complex than the 
+last example, I suggest using other tools (eg, Perl just to name one). 
+Btw, it looks like there is an awk CSV parsing library here: <a href="http://lorance.freeshell.org/csv/">http://lorance.freeshell.org/csv/</a> (I have not tried it).</p>
+<h2 style="margin-bottom:10px"><a name="awk_ipv4">Pitfall: validate an IPv4 address</a></h2>
+<p>Let's say we want to check whether a given string is a valid IPv4 
+address (for simplicity, we limit our discussion to IPv4 addresses in 
+the traditiona dotted quad format here). We start with this seemingly 
+valid program:</p>
+<pre>awk -F '[.]' 'function ok(n){return (n&gt;=0 &amp;&amp; n&lt;=255)} {exit (ok($1) &amp;&amp; ok($2) &amp;&amp; ok($3) &amp;&amp; ok($4))}'
+</pre>
+<p>This seems to work, until we pass it '123b.44.22c.3', which it 
+happily accepts as valid. The fact is that, due to the way awk's number 
+to string conversion works, some strings may "look like" numbers to awk,
+ even if we know they are not. The correct thing to do here is to 
+perform a string comparison against a regular expression:</p>
+<pre>awk -F '[.]' 'function ok(n) {
+  return (n ~ /^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/)
+}
+{exit (ok($1) &amp;&amp; ok($2) &amp;&amp; ok($3) &amp;&amp; ok($4))}'
+</pre>
+<h2 style="margin-bottom:10px"><a name="awk_same_data">Check whether two files contain the same data</a></h2>
+<p>We want to check whether two (unsorted) files contain the same data, 
+that is, the set of lines of the first file is the same set of lines of 
+the second file. One way is of course sorting the two files and 
+processing them with some other tool (for example, uniq or diff). But we
+ want to avoid the relatively expensive sort operation. Can awk help us 
+here? The answer (you guessed it) is yes. If we know that the two files 
+do not contain duplicates, we can do this:</p>
+<pre>awk '!($0 in a) {c++;a[$0]} END {exit(c==NR/2?0:1)}' file1 file2
+</pre>
+<p>and check the return status of the command (0 if the files are equal,
+ 1 otherwise). The assumption we made that the two files must not 
+contain duplicate lines is crucial for the program to work correctly. In
+ essence, what it does is to keep track of the number of different lines
+ seen. If this number is exactly equal to half the number of total input
+ records seen, then the two files must be equal (in the sense described 
+above). To understand that, just realize that, in all other cases (ie, 
+when a file is only a partial subset or is not a subset of the other), 
+the total number of distinct lines seen will always be greater than <strong>NR/2</strong>.</p>
+<p>The program's complexity is linear in the number of input records.</p>
+<h2 style="margin-bottom:10px"><a name="awk_contexts">Pitfall: contexts and variable types in awk</a></h2>
+<p>We have this file:</p>
+<pre>1,2,3,,5,foo
+1,2,3,0,5,bar
+1,2,3,4,5,baz
+</pre>
+<p>and we want to replace the last field with "X" only when the fourth field is not empty. We thus do this:</p>
+<pre>awk -F ',' -v OFS=',' '{if ($4) $6="X"}1'
+</pre>
+<p>But we see that the substitution only happens in the last line, instead of the last two as we expected. Why?</p>
+<p>Basically, there are only two data types in awk: strings and numbers.
+ Internally, awk does not assign a fixed type to the variables; they are
+ literally considered to be of type "number" and "string" at the same 
+time, with the number 0 and the null string being equivalent. Only when a
+ variable is used in the program, awk automatically converts it to the 
+type it deems appropriate for the context. Some contexts strictly 
+require a specific type; in that case, awk automatically converts the 
+variable to that type and uses it. In contexts that does not require a 
+specific type, awk treats variables that "look like" numbers as numbers,
+ and the other variables are treated as strings. In out example above, 
+the simple test "<strong>if ($4)</strong>" does not provide a specific context, since the tested variable can be anything. In the first line, <strong>$4</strong> is an empty string, so awk considers it false for the purposes of the test. In the second line, <strong>$4</strong>
+ is "0". Since it look like a number, awk uses it like a number, ie 
+zero. Since 0 is considered false, the test is unsuccessful and the 
+substitution is not performed.</p>
+<p>Luckily, there is a way to help awk and tell it exactly what we want.
+ We can use string concatenation and append an empty string to the 
+variable (which does not change its value) to explicitly tell awk that 
+we want it to treat it like a string, or, conversely, add 0 to the 
+variable (again, without changing its value) to explicitly tell awk that
+ we want a number. So this is how our program should be to work 
+correctly:</p>
+<pre>awk -F ',' -v OFS=',' '{if ($4"") $6="X"}1'   # the "" forces awk to evaluate the variable as a string
+</pre>
+<p>With this change, in the second line the if sees the string "0", 
+which is not considered false, and the test succeeds, just as we wanted.</p>
+<p>As said above, the reverse is also true. Another typical problematic program is this:</p>
+<pre>awk '/foo/{tot++} END{print tot}'
+</pre>
+<p>This, in the author's intention, should count the number of lines that match <strong>/foo/</strong>. But if <strong>/foo/</strong> does not appear in the input, the variable <strong>tot</strong>
+ retains its default initial value (awk initializes all variables with 
+the dual value "" and 0). print expects a string argument, so awk 
+supplies the value "". The result is that the program prints just an 
+empty line. But we can force awk to treat the variable as numeric, by 
+doing this:</p>
+<pre>awk '/foo/{tot++} END{print tot+0}'
+</pre>
+<p>The seemingly innocuous <strong>+0</strong> has the effect of providing numeric context to the variable "<strong>tot</strong>",
+ so awk knows it has to prefer the value 0 of the variable over the 
+other possible internal value (the empty string). Then, 
+numeric-to-string conversion still happens to satisfy print, but this 
+time what awk converts to string is 0, so print sees the string "0" as 
+argument, and prints it.</p>
+<p>Note that, if an explicit context has been provided to a variable, awk remembers that. That can lead to unexpected results:</p>
+<pre># input: 2.5943 10
+awk '{$1=sprintf("%d",$1);   # truncates decimals, but also explicitly turns $1 into a string!
+      if($1 &gt; $2) print "something went wrong!" }          # this is printed
+</pre>
+<p>Here, after the <strong>sprintf()</strong>, awk notes that we want <strong>$1</strong> to be a string (in this case, "2"). Then, when we do <strong>if($1&gt;$2)</strong>, awk sees that <strong>$2</strong> has no preferred type, while <strong>$1</strong> does, so it converts <strong>$2</strong> into a string (to match the wanted type of <strong>$1</strong>)
+ and does a string comparison. Of course, 99.9999% of the times this is 
+not what we want here. In this case, the problem is easily solved by 
+doing "<strong>if ($1+0 &gt; $2)</strong>" (doing <strong>$2+0</strong> instead WON'T work!), doing "<strong>$1=$1+0</strong>" after the <strong>sprintf()</strong>, or using some other means to truncate the value of <strong>$1</strong>, that does not give it explicit string type.</p>
+<h2 style="margin-bottom:10px"><a name="awk_pulling">Pulling out things</a></h2>
+<p>Suppose you have a file like this:</p>
+<pre>Yesterday I was walking in =the street=, when I saw =a
+black dog=. There was also =a cat= hidden around there. =The sun= was shining, and =the sky= was blue.
+I entered =the
+music
+shop= and I bought two CDs. Then I went to =the cinema= and watched =a very nice movie=.
+End of the story.
+</pre>
+<p>Ok, silly example, fair enough. But suppose that we want to print only and all the parts of that file that are like <strong>=something=</strong>.
+ We have no knowledge of the structure of the file. The parts we're 
+interested in might be anywere; they may span lines, or there can be 
+many of them on a single line. This seemingly daunting and difficult 
+task is actually easily accomplished with this small awk program:</p>
+<pre>awk -v RS='=' '!(NR%2)'
+# awk -v RS='=' '!(NR%2){gsub(/\n/," ");print}'    # if you want to reformat embedded newlines
+</pre>
+<p>Easy, wasn't it? Let's see how this works. Setting <strong>RS</strong>
+ to '=' tells awk that records are separated by '=' (instead of the 
+default newline character). If we look at the file as a series of 
+records separated by '=', it becomes clear that what we want are the 
+even-numbered records. So, just throw in a condition that is true for 
+even-numbered records to trigger the printing.</p>
+<p>GNU awk can take this technique a step further, since it allows us to assign full regexes to <strong>RS</strong>, and introduces a companion variable (<strong>RT</strong>) that stores the part of the input that actually matched the regex in <strong>RS</strong>.
+ This allows us, for example, to apply the previous technique when the 
+interesting parts of the input are delimited by different characters or 
+string, like for example when we want everything that matches 
+&lt;tag&gt;something&lt;/tag&gt;. With GNU awk, we can do this:</p>
+<pre>gawk -v RS='&lt;/?tag&gt;' 'RT=="&lt;/tag&gt;"'
+</pre>
+<p>or again</p>
+<pre>gawk -v RS='&lt;/?tag&gt;' '!(NR%2)'
+</pre>
+<p>and be done with that. Another nice thing that can be done with GNU awk and <strong>RT</strong>
+ is printing all the parts of a file that match an arbitrary regular 
+expression (something otherwise usually not easily accomplished). 
+Suppose that we want to print everything that looks like a number in a 
+file (simplifiying, here any sequence of digits is considered a number, 
+but of course this can be refined), we can do just this:</p>
+<pre>gawk -v RS='[0-9]+' 'RT{print RT}'
+</pre>
+<p>Checking that <strong>RT</strong> is not null is necessary because for the last record of a file <strong>RT</strong>
+ is null, and an empty line would be printed in that case. The output 
+produced by the previous program is similar to what can be obtained 
+using <strong>grep -o</strong>. But awk can do better than that. We can 
+use a slight variation of this same technique if we want to add context 
+to our search (something grep -o alone cannot do). For example, let's 
+say that we want to print all numbers, but only if they appear inside 
+"--", eg like --1234--, and not otherwise. With gawk, we can do this:</p>
+<pre>gawk -v RS='--[0-9]+--' 'RT{gsub(/--/,"",RT);print RT}'
+</pre>
+<p>So, a carefully crafted <strong>RS</strong> selects only the "right" data, that can be subsequently extracted safely and printed.</p>
+<p>With non-GNU awk, matching all occurrences of an expression can still be done, it just requires more code. See <a href="http://awk.freeshell.org/FindAllMatches">FindAllMatches</a>.</p>
+<h2 style="margin-bottom:10px">Have fun!</h2>
+<p>Have fun learning Awk! It's a fun language to know.</p>
+<p>Ps. I will go silent for a week. I have an on-site interview with 
+Google in Mountain View, California. I'll be back on 31st of October and
+ will post something new in the first week of November!</p>
+
+  </div>
+
+
+  <div style="margin-bottom: 0.5em">
+<script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/adsbygoogle.js"></script>
+<!-- catonmat before article 468x60 blue -->
+<ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-0433925538517663" data-ad-slot="9246395270" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:468px;height:60px;" width="468" height="60" frameborder="0"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+
+  <div class="footer">
+      <div class="tags"><a href="http://www.catonmat.net/tags" title="All catonmat tags" class="tags_link">Tags</a>:
+        
+        <a href="http://www.catonmat.net/tag/awk" title="See all pages tagged &quot;awk&quot;">awk</a>, 
+        <a href="http://www.catonmat.net/tag/csv" title="See all pages tagged &quot;csv&quot;">csv</a>, 
+        <a href="http://www.catonmat.net/tag/file" title="See all pages tagged &quot;file&quot;">file</a>, 
+        <a href="http://www.catonmat.net/tag/idioms" title="See all pages tagged &quot;idioms&quot;">idioms</a>, 
+        <a href="http://www.catonmat.net/tag/ip-address" title="See all pages tagged &quot;ip address&quot;">ip address</a>, 
+        <a href="http://www.catonmat.net/tag/ipv4" title="See all pages tagged &quot;ipv4&quot;">ipv4</a>, 
+        <a href="http://www.catonmat.net/tag/tips" title="See all pages tagged &quot;tips&quot;">tips</a>, 
+        <a href="http://www.catonmat.net/tag/tricks" title="See all pages tagged &quot;tricks&quot;">tricks</a>, 
+        <a href="http://www.catonmat.net/tag/waldner" title="See all pages tagged &quot;waldner&quot;">waldner</a>
+      </div>
+
+    <span class="comment_url">
+        <a href="http://www.catonmat.net/blog/ten-awk-tips-tricks-and-pitfalls/#comments" title="Comment on &quot;10 Awk Tips, Tricks and Pitfalls&quot;"><strong>53</strong> Comments</a>
+    </span>
+
+    <span class="views">
+       <strong>534,579</strong> Views
+    </span>
+
+    <span class="short_url">
+      Short URL <input size="30" value="http://catonmat.net/p/100" onclick="this.select()" readonly="readonly" type="text">
+    </span>
+  </div>
+
+
+  <div class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      <li><a href="http://www.catonmat.net/blog/awk-nawk-and-gawk-cheat-sheet/" title="Awk, Nawk and GNU Awk Cheat Sheet">Awk, Nawk and GNU Awk Cheat Sheet</a></li>
+      <li><a href="http://www.catonmat.net/blog/online-csv-tools/" title="Launching a network of online tools sites">Launching a network of online tools sites</a></li>
+      <li><a href="http://www.catonmat.net/blog/update-on-famous-awk-one-liners-explained/" title="Update on Awk One-Liners Explained: String and Array Creation">Update on Awk One-Liners Explained: String and Array Creation</a></li>
+      <li><a href="http://www.catonmat.net/blog/successful-seo/" title="What does successful SEO look like?">What does successful SEO look like?</a></li>
+      <li><a href="http://www.catonmat.net/blog/plain-text-versions-of-sed-ed-and-awk-cheat-sheets/" title="Plain Text Versions of Sed, ed and AWK Cheat Sheets">Plain Text Versions of Sed, ed and AWK Cheat Sheets</a></li>
+      <li><a href="http://www.catonmat.net/blog/revisiting-gnu-awk-youtube-video-downloader/" title="Revisiting GNU Awk YouTube Video Downloader">Revisiting GNU Awk YouTube Video Downloader</a></li>
+      <li><a href="http://www.catonmat.net/blog/awk-one-liners-explained-part-three/" title="Awk One-Liners Explained, Part III: Selective Printing and Deleting of Certain Lines">Awk One-Liners Explained, Part III: Selective Printing and Deleting of Certain Lines</a></li>
+      <li><a href="http://www.catonmat.net/blog/golfing-the-extraction-of-ip-addresses-from-ifconfig/" title="Golfing the Extraction of IP Addresses from ifconfig">Golfing the Extraction of IP Addresses from ifconfig</a></li>
+      <li><a href="http://www.catonmat.net/blog/traffic-accounting-with-iptables/" title="Traffic Accounting with Linux IPTables">Traffic Accounting with Linux IPTables</a></li>
+      <li><a href="http://www.catonmat.net/blog/solving-google-treasure-hunt-prime-number-problem-four/" title="Solving Google Treasure Hunt Puzzle 4: Prime Numbers">Solving Google Treasure Hunt Puzzle 4: Prime Numbers</a></li>
+      <li>
+    </li></ul>
+  </div>
+
+  <a name="comments"></a>
+  <div class="comments">
+    <div id="comment_list"><!-- TODO: change id to class -->
+      <h3>Comments</h3>
+        
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1408"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/b58996c504c5638798eb6b511e6f49af.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Unix User</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1408" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 00:20</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Something I often need to do is match lines against a regexp, and
+ print out a matching group within that line.  But I have never been 
+able to find a way to do this in awk, and end up resorting to Perl.</p>
+<p>So - is there a way to do something like this?</p>
+<p>  /abc([0-9]+)def/ { print group(1); }</p>
+<p>so that input of:</p>
+<p>  abc654def</p>
+<p>produces:</p>
+<p>  654</p>
+<p>Thanks!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1408?reply" class="reply" id="reply_a_1408" title="Reply to comment by Unix User">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-33732"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/a0fa22dc4262b7b23b497a69655c0a30.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://livesbj.com/" title="http://livesbj.com" rel="nofollow">frank_wu</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/33732" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 19, 2011, 07:32</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>you can install gawk,and do like this:<br>
+Syntax：<br>
+  gawk 'mathc($0,regex,array){print array[1]}' file</p>
+<p>example:<br>
+  gawk 'match($0, "https?:\/\/(.*?google.*?)/", array) {print array[1]}' filename</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/33732?reply" class="reply" id="reply_a_33732" title="Reply to comment by frank_wu">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1409"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1409" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 08:57</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Unix User:</p>
+<p>That is easily done with gawk, see the last tip. You could do eg </p>
+<pre>gawk -v RS='abc([0-9]+)def' 'RT{gsub(/[^0-9]/,"",RT)print RT}</pre>
+<p>Of course, the exact regexes used for RS and in the gsub vary from 
+time to time depending on what you want to achieve. Another solution is 
+using gensub(), again from gawk.</p>
+<p>Unfortunately, standard awk regexes lack backreferences, so getting what you want using standard awk would not be easy.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1409?reply" class="reply" id="reply_a_1409" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-66330"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">jamesp@yahoo.com</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/66330" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 09, 2014, 16:01</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>but less wordy in perl :</p>
+<p>perl -le 'shift =~ /(\d+)/;print $1' abc123def</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/66330?reply" class="reply" id="reply_a_66330" title="Reply to comment by jamesp@yahoo.com">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-66331"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">jamesp@yahoo.com</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/66331" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 09, 2014, 16:04</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>or even </p>
+<p>perl -le 'print shift =~ /(\d+)/' abc123def</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/66331?reply" class="reply" id="reply_a_66331" title="Reply to comment by jamesp@yahoo.com">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1410"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1410" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 11:39</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>To pkrumins: something got lost during reformatting. The first two examples that uses GNU awk and RT should be as follows:</p>
+<p>"...like for example when we want everything that matches something. With GNU awk, we can do this:</p>
+<pre>gawk -v RS='' 'RT==""'
+
+or again
+
+gawk -v RS='' '!(NR%2)'
+</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1410?reply" class="reply" id="reply_a_1410" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1411"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1411" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 11:40</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>ok, now I see :-)</p>
+<p>Let's see it this time it works:</p>
+<p>"...like for example when we want everything that matches &lt;tag&gt;something&lt;/tag&gt;. With GNU awk, we can do this:</p>
+<p>gawk -v RS='&lt;/?tag&gt;' 'RT=="&lt;/tag&gt;"'</p>
+<p>or again</p>
+<p>gawk -v RS='&lt;/?tag&gt;' '!(NR%2)'</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1411?reply" class="reply" id="reply_a_1411" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1412"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1412" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 15:29</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>pkrumins:</p>
+<p>no, using int(n)==n to check if a number is valid in an IPv4 address 
+won't work. It will accept, for example, "+100" which is not valid in a 
+dotted quad IPv4 address.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1412?reply" class="reply" id="reply_a_1412" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1413"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/4b2de49d55ee8aa14a921fb8e3a2e365.png" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Thorsten Strusch</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1413" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 24, 2008, 23:43</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>@Unix User:<br>
+tr should be the tool of your choice:</p>
+<pre> echo "abc654dEF" | tr -d 'a-zA-Z'
+ 654
+</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1413?reply" class="reply" id="reply_a_1413" title="Reply to comment by Thorsten Strusch">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1414"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/cfae09b48d1dc93bcfa14741edddfabd.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">zts</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1414" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 25, 2008, 02:22</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Alternate solution for the IP address validation function:</p>
+<pre>function ok(n){ return (n !~ /[^0-9]/) &amp;&amp; (n&gt;=0 &amp;&amp; nThis just adds an additional test to assert that the value being tested contains only numeric characters.</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1414?reply" class="reply" id="reply_a_1414" title="Reply to comment by zts">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1415"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/cfae09b48d1dc93bcfa14741edddfabd.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">zts</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1415" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 25, 2008, 02:25</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>(I'll try that again) Alternate solution for the IP address 
+validation function - same as your first suggestion, but with a 
+condition allowing only numeric values:</p>
+<pre>function ok(n){ return (n !~ /[^0-9]/) &amp;&amp; (n&gt;=0 &amp;&amp; n</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1415?reply" class="reply" id="reply_a_1415" title="Reply to comment by zts">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1416"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/43739b33ee2faf9d3224c8e7d57db831.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.abuzant.com/" title="http://www.abuzant.com/" rel="nofollow">Ruslan Abuzant</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1416" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 25, 2008, 14:01</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Keep us updated with what goes there at Mt. View, CA :D</p>
+<p>Good luck newbie googler (Y)</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1416?reply" class="reply" id="reply_a_1416" title="Reply to comment by Ruslan Abuzant">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1417"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/59c6138896a51327d17147a0e16f8eb9.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">PS</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1417" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 25, 2008, 19:58</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Found this site due to the article you wrote on perl one-liner 
+youtube downloader (which no longer works) and I see you've digressed.  
+Why would anyone go from perl to awk?  Did you hit your head?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1417?reply" class="reply" id="reply_a_1417" title="Reply to comment by PS">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1418"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1418" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 27, 2008, 18:27</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>@zts:</p>
+<p>That's a good one! Thank you.</p>
+<p>@PS: </p>
+<p>I agree perl is more powerful of awk. But I think you'll agree that 
+that is not a valid reason to stop using awk (or sed, or cat, or all the
+ other tools that perl could easily replace).</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1418?reply" class="reply" id="reply_a_1418" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1419"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/cd43f850e4e7f0fec95636cd6bc21501.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Steve Kinoshita</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1419" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 29, 2008, 03:13</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi!  </p>
+<p>This is a really helpful article thanks!</p>
+<p>I am trying to remove all double quotes and angled brackets, and 
+replcase all semicolons and colons with newlines in a text file with 
+gawk.  </p>
+<p>Can you help?</p>
+<p>I have trouble making my scripts work.<br>
+I use gawk3.1.6 for Windows and following are some of the codes I have tried.</p>
+<pre>awk {gsub(/,/,"\n")}1 </pre>
+<pre>awk {gsub(/\"/,"")}1 </pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1419?reply" class="reply" id="reply_a_1419" title="Reply to comment by Steve Kinoshita">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1420"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1420" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 29, 2008, 14:28</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>@Steve Kinoshita:</p>
+<p>To remove all double quotes and angled brackets, try this:</p>
+<pre>gsub(/["&lt;&gt;]/,"")
+</pre>
+<p>To replace all semicolons and colons with newlines, try this:</p>
+<pre>gsub(/[;:]/,"\n")
+</pre>
+<p>Since you say you're using windows, I suggest you put your awk program in a separate file, and then run it using</p>
+<pre>awk -f prog.awk yourfile
+</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1420?reply" class="reply" id="reply_a_1420" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1421"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/9801f39e19239a7f1aeb954761a499b0.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://mydebian.blogdns.org/" title="http://mydebian.blogdns.org" rel="nofollow">Marco R.</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1421" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 03, 2008, 01:22</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>In "Pitfall: validate an IPv4 address" awk returns not-zero when 
+the input is a valid IPv4 address and zero otherwise. That's because 
+awk's boolean arithmetic assigns 1 to True and 0 to False.</p>
+<p>This is not what a shell programmer would expect because shells usually act in the opposite way: true=0 and false=1.</p>
+<p>Thus, the final "shell-compatible" script should be:</p>
+<pre>awk -F '[.]' 'function ok(n) {
+  return (n ~ /^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/)
+}
+{exit (! ( ok($1) &amp;&amp; ok($2) &amp;&amp; ok($3) &amp;&amp; ok($4) ) )}'
+</pre>
+<p>However, I'd prefer to use something simpler:</p>
+<pre>function ok(n) {if (n ~ /[^[:digit:]]/)        return 1==0;return (nNot fully tested but should work the samemy 2 pennies ;)</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1421?reply" class="reply" id="reply_a_1421" title="Reply to comment by Marco R.">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1422"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1422" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 03, 2008, 11:55</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>@Marco R:</p>
+<p>Awk's logic is not broken. I just follows the C (and many other 
+languages) model, where any nonzero value is considered true, so you can
+ do<br>
+"if &lt;something&gt; then ...".</p>
+<p>The shell uses the same logic, but it just uses zero to indicate 
+success and nonzero to indicate failure, but that's not necessarily a 
+bad thing. </p>
+<p>In the particular application of validating an address, the return 
+value depends on the context you'll use that. If the function ok() is to
+ be invoked within the awk program only, then I think returning 1 for 
+success makes sense (and perhaps return 0 at the end of the overall awk 
+program if it succeeded in its entirety). If, on the other hand, you 
+want to use the awk program directly from the shell, only to check IP 
+addresses, then you can return 0 for success, as you suggest. I think 
+it's a matter of personal taste after all. </p>
+<p>Regarding the function ok() you suggest, something similar was 
+proposed by another reader (see previous comments). However, I don't see
+ the point in returning "1==0" instead of simply 0. </p>
+<p>Thanks for your comment!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1422?reply" class="reply" id="reply_a_1422" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1423"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/ee7a42049633b4feaef270f1ce379575.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">karl</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1423" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 07, 2008, 09:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>It's easy with sed:</p>
+<p>echo abc654def | sed -E -n -e 's/abc([0-9]+)def/\1/p'</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1423?reply" class="reply" id="reply_a_1423" title="Reply to comment by karl">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1424"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/6250ceac14ba37959c33ef054cb969fb.png" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Rob</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1424" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 10, 2008, 18:32</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi</p>
+<p>Thank you for the tips.</p>
+<p>Could I ask something basic? If I have an IP=123.123.123.123 how do I
+ use the 'Pitfall: validate an IPv4 address' to validate the 
+variable/input?</p>
+<p>Thanks<br>
+Rob</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1424?reply" class="reply" id="reply_a_1424" title="Reply to comment by Rob">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1425"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/d10ca8d11301c2f4993ac2279ce4b930.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">waldner</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1425" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 10, 2008, 22:41</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>@Rob:</p>
+<p>many solutions have been proposed in the article and in the comments.
+ To summarize, you can build a function that accepts an argument and 
+checks if that argument is a number and is between 0 and 255, and use 
+that function to check that all four octets are valid. The skeleton of a
+ program is as follows:</p>
+<pre>awk -F[.] '
+function ok(n) {
+ # do something here to check the value of n,
+ # and return 1 if it's valid, 0 otherwise
+}
+{exit ( ok($1) &amp;&amp; ok($2) &amp;&amp; ok($3) &amp;&amp; ok($4) )'
+</pre>
+<p>(to make it more robust, you may optionally check that the number of 
+input fields (ie, octets) is exactly 4, no more and no less)<br>
+so you will call it as follows, for example:</p>
+<pre>echo "123.123.123.123" | awk -F[.] '...'
+if [ $? -eq 1 ]; then
+   echo "valid IP address"
+else
+   echo "invalid IP address"
+fi
+</pre>
+<p>where the part '...' is the complete awk program.<br>
+Note that, to follow shell conventions, you may choose to have the awk program return 0 on success and 1 on failure instead.</p>
+<p>That said, here are two ways to implement function ok:</p>
+<pre>function ok(n) {
+  # string check using a regex
+  return (n~/^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$/)
+}
+
+function ok(n) {
+  # check that n is a number, and then that
+  # it is in the range 0-255
+  return (n~/^[0-9]*$/ &amp;&amp; n&gt;=0 &amp;&amp; n&lt;=255)
+}
+</pre>
+<p>Again, you might choose to negate the return values if you want to return 0 on success.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1425?reply" class="reply" id="reply_a_1425" title="Reply to comment by waldner">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1426"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/e028ec702f0d82bd4fdb2e8c15620ed2.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">HS</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1426" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 17, 2008, 08:18</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Really great way to explain things and reading it makes me humble too</p>
+<p>Thank you guys !</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1426?reply" class="reply" id="reply_a_1426" title="Reply to comment by HS">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1427"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/edc4c6bd4dc4a24a754d6aff63101822.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://none/" title="http://none" rel="nofollow">joe</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1427" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 11, 2008, 23:12</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I read the article but can not figure out how to get awk to print
+ the lines of a file, minus the duplicates. For example I have a file 
+with a bunch of IP addresses some of which are duplicated throughout the
+ file. I am only interested in having the output display unique IP 
+addresses. any ideas?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1427?reply" class="reply" id="reply_a_1427" title="Reply to comment by joe">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1428"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/9055b6c1d07708555ec584d03c387f15.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net/" title="http://www.catonmat.net">Peter Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1428" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 11, 2008, 23:23</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>joe, it's really simple (you won't believe it):</p>
+<pre>awk '!a[$0]++'
+</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1428?reply" class="reply" id="reply_a_1428" title="Reply to comment by Peter Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2959"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/c80f3162144638c11e91cfc2d1748c78.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">krishna</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/2959" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 11, 2010, 04:14</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>yes it works like a magic,, It appears to have to same effect as $&gt;cat </p>
+&lt;file&gt;<p> | uniq<br>
+How does awk work here,, can someone explain?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/2959?reply" class="reply" id="reply_a_2959" title="Reply to comment by krishna">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1429"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/60e80a8d4a3a78e43ba9d6b598c6ad69.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Ed</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1429" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 19, 2009, 01:02</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>How can I search a file for a pattern ($3 in input line) and for a
+ match print $1 and $2 and $3, but for no match print "na " "na " $3?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1429?reply" class="reply" id="reply_a_1429" title="Reply to comment by Ed">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1430"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/9055b6c1d07708555ec584d03c387f15.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net/" title="http://www.catonmat.net">Peter Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1430" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 19, 2009, 09:34</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Ed, easy:</p>
+<pre>$ awk '$3 ~ /pattern/ { print $1, $2, $3 } $3 !~ { print "na", "na", $3 }'
+</pre>
+<p>or</p>
+<pre>$ awk '$3 ~ /pattern/ { print $1, $2, $3; next } { print "na", "na", $3 }'
+</pre>
+<p>or</p>
+<pre>$ awk '{ if ($3 ~ /pattern/) { print $1, $2, $3 } else { print "na", "na", $3 } }'
+</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1430?reply" class="reply" id="reply_a_1430" title="Reply to comment by Peter Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1431"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/b185971bd326c4ad978bcda778dd8d8c.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.matejunkie.com/" title="http://www.matejunkie.com/" rel="nofollow">Mike Adolphs</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1431" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 02, 2009, 16:34</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Just wanted to let you know that this article provides a solution
+ for a problem I've faced for the last couple of hours. Great work and 
+thanks to you!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1431?reply" class="reply" id="reply_a_1431" title="Reply to comment by Mike Adolphs">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-1432"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/903e59cb06c1f2dbd86daf6b967b1e90.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Javier</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/1432" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 10, 2010, 18:05</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi everybody,</p>
+<p>I've a file that looks like:</p>
+<p>     0      0      0      0      0      0<br>
+    87     62     90    180   1.40679 1.60570860e-01<br>
+     0      0      0      0      0      0<br>
+    88     62     89    179   1.39871 1.76044390e-01<br>
+     0      0      0      0      0      0<br>
+    88     64     86    172   1.34657 1.50280803e-01<br>
+     0      0      0      0      0      0<br>
+    87     63     88    176   1.38235 1.94590941e-01<br>
+     0      0      0      0      0      0<br>
+   116     45     64    129   1.01130 1.18465826e-01<br>
+    88     63     87    175   1.36837 1.46118164e-01<br>
+     0      0      0      0      0      0<br>
+    87     61     93    187   1.46723 1.99260086e-01</p>
+<p>The lines containing 0's can be thought as being delimiters. I need 
+to find between the each pair of delimiters, which line has the highest 
+value in the last column and return it for further processing. Does 
+anybody could shed some light on it?</p>
+<p>Best regards,</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/1432?reply" class="reply" id="reply_a_1432" title="Reply to comment by Javier">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-3152"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">marco</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/3152" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">June 22, 2010, 12:51</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>great page...</p>
+<p>might and in an (NF==4) to the IP address validation exit logic.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/3152?reply" class="reply" id="reply_a_3152" title="Reply to comment by marco">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-4339"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/65ff444075b3a2138a10b03eca27bda6.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">AwkNewbie</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/4339" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 03, 2010, 21:24</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Great awk tips. Now I have a question. What should be the command
+ if  I want to delete a range pattern, ie. if I want to delete all the 
+lines from [Pattern2] to the first blank line for the file given below:</p>
+<p>[Pattern1]<br>
+Some lines<br>
+Goes here</p>
+<p>[Pattern2]<br>
+Some more lines</p>
+<p>[Pattern3]<br>
+Goes on...</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/4339?reply" class="reply" id="reply_a_4339" title="Reply to comment by AwkNewbie">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-13919"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/8cb5f617d0e08a9b7afb17c1a0e0b79c.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Kundan</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/13919" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 07, 2011, 18:42</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I have input file which has data somewhat line this, call details are in a XML file. Each call data ends with "</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/13919?reply" class="reply" id="reply_a_13919" title="Reply to comment by Kundan">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-25130"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/86f31e0d99389a580dc2039120e66a81.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Joe B</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/25130" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">June 10, 2011, 18:45</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Very useful article and comments!</p>
+<p>I have my own awk dilemma...</p>
+<p>I'm trying to identify (and print) records from a file where the 15th
+ &amp; 16th bytes of a record = '02'. I've been searching for a solution
+ but it appears most awk commands of this type reference a field $1, $2,
+ etc.</p>
+<p>Any ideas on how to write this?  The file contains several layouts and for these specific records they are fixed length.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/25130?reply" class="reply" id="reply_a_25130" title="Reply to comment by Joe B">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-34095"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/929d239125c7deaaeed3b608edb7f310.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">IF_Rock</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/34095" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 23, 2011, 20:18</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>String constants set using apostrophes in gawk?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/34095?reply" class="reply" id="reply_a_34095" title="Reply to comment by IF_Rock">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-35383"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/87d3194f563f35364a7f5d9b81c3ec46.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Amiya</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/35383" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 26, 2011, 12:02</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi All,<br>
+Can you please tell me the awk command to collect 10 lines after the search pattern.</p>
+<p>thanks<br>
+Amiya</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/35383?reply" class="reply" id="reply_a_35383" title="Reply to comment by Amiya">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-45708"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/ebe34d7497376077ac7c74b089773467.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Jotne</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/45708" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">August 14, 2013, 07:39</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Print 2 lines before and 3 after "pattern"</p>
+<p><code>awk '{a[NR]=$0} $0~s {f=NR} END {for (i=f-B;i&lt;=f+A;i++) print a[i]}' B=2 A=3 s="pattern"&lt;\code&gt;<br>
+<code>grep -A3 -B2 "pattern"&lt;\code&gt;</code></code></p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/45708?reply" class="reply" id="reply_a_45708" title="Reply to comment by Jotne">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-78526"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/85f35ae15302ef4c0415e8d2f70135c7.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Sheetal</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/78526" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 17, 2016, 06:23</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi Jotne,</p>
+<p>I have used the below command to search for a pattern and remove the 5 lines before and 7 lines after the pattern:</p>
+<p>awk '/pattern/{for(x=NR-5;x&lt;=NR+7;x++)d[x];}{a[NR]=$0}END{for(i=1;i&lt;=NR;i++)if(!(i in d))print a[i]}' filename</p>
+<p>This is working as expected.</p>
+<p>But I was not clear on the logic used.</p>
+<p>Would you be able to help me understand the logic?</p>
+<p>Thanks,<br>
+Sheetal</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/78526?reply" class="reply" id="reply_a_78526" title="Reply to comment by Sheetal">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-36739"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/87d3194f563f35364a7f5d9b81c3ec46.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Amiyaranjan Sahoo</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/36739" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 22, 2011, 12:28</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi All,<br>
+Can you please tell me how to print 10 lines after/before the search string in HP UX.</p>
+<p>Regardsm<br>
+Amiya</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/36739?reply" class="reply" id="reply_a_36739" title="Reply to comment by Amiyaranjan Sahoo">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37434"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/e11cfe468b1989954d222b92043e7808.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.folkstalk.com/2011/12/good-examples-of-awk-command-in-unix.html" title="http://www.folkstalk.com/2011/12/good-examples-of-awk-command-in-unix.html" rel="nofollow">unix awk command</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/37434" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 02, 2012, 11:07</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Thanks for the post. A worth reading article on awk.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/37434?reply" class="reply" id="reply_a_37434" title="Reply to comment by unix awk command">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-39803"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/30b35d1f7edef7a62818302fc4545a76.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">pecival</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/39803" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 23, 2012, 19:03</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>you said<br>
+awk '{sub(/pattern/,"foobar")}1'<br>
+is the equivalent to<br>
+sed 's/pattern/foobar/'</p>
+<p>..not exactly..AFAIK the sed part should have /g to apply the replace
+ to all matches (not just the first one)..It's just a detail, but let's 
+be precise ;)</p>
+<p>(I hope I'm not saying nonsense)</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/39803?reply" class="reply" id="reply_a_39803" title="Reply to comment by pecival">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-43391"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/8f7a9c652fed807cb3e6c724ada2057c.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">ohno</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/43391" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 03, 2013, 11:08</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>AFAIK gsub() would be the equivalent to s///g. sub() only substitutes the first occurence.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/43391?reply" class="reply" id="reply_a_43391" title="Reply to comment by ohno">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-41372"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/ebe34d7497376077ac7c74b089773467.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Jotne</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/41372" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 25, 2012, 10:56</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>awk '/foo/ || /bar/'</p>
+<p>more simple</p>
+<p>awk '/foo|bar/'</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/41372?reply" class="reply" id="reply_a_41372" title="Reply to comment by Jotne">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-42807"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/eb8c97fc0113eea73b662e58744d3124.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Vadim Bogulean</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/42807" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 02, 2013, 09:15</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi and thanks for your tips.<br>
+I was actually looking a way to print certain number of lines after searching a line in a file.</p>
+<p>Based on the tips from 'Print lines using patters' I could elaborate 
+one for my needs. Thought you could add it as well for others.</p>
+<p>awk "{cnt-=1;if(cnt&lt;=0)p=0;}/$1/{p=1;cnt=$2}p" $3</p>
+<p>where $1, $2 $3 to be replaced with :<br>
+$1 - Your search pattern, <br>
+$2 - Number of lines to display (including searched pattern)<br>
+$3 - Your input file</p>
+<p>i.e <br>
+ $ awk "{cnt-=1;if(cnt&lt;=0)p=0;}/Error:/{p=1;cnt=2}p" file</p>
+<p>file content:<br>
+Error: <br>
+Error # 1<br>
+Warning:<br>
+Warning # 2<br>
+Error:<br>
+Error # 3</p>
+<p>Result would be:<br>
+Error: <br>
+Error # 1<br>
+Error:<br>
+Error # 3</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/42807?reply" class="reply" id="reply_a_42807" title="Reply to comment by Vadim Bogulean">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-43638"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/87ffecb1f2155381f7c6aebb49644d8c.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">sabith</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/43638" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 16, 2013, 04:36</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I have two folders named 'check' in two places. Both will have 
+same folders but the files of each folder may differs. I want to run a 
+script to find the difference between the folders with same name in each
+ 'check' folder then I have to redirect the difference to a file. Please
+ anyone help me..</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/43638?reply" class="reply" id="reply_a_43638" title="Reply to comment by sabith">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-46142"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">colossus</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/46142" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 02, 2013, 02:44</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>"""eg, if "FOO5\nFOO6" is found, the file "out5" will not be created"""<br>
+should be "out6" will not be created, right?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/46142?reply" class="reply" id="reply_a_46142" title="Reply to comment by colossus">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-46700"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">mug896</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/46700" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 30, 2013, 01:30</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>how about this one for IPv4 check</p>
+<p>awk -F '[.]' 'function ok(n) {<br>
+  if (n ~ /^[0-9][0-9]?[0-9]?$/) {<br>
+      return (n&gt;=0 &amp;&amp; n&lt;=255)<br>
+  }<br>
+}<br>
+{exit (ok($1) &amp;&amp; ok($2) &amp;&amp; ok($3) &amp;&amp; ok($4))}'</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/46700?reply" class="reply" id="reply_a_46700" title="Reply to comment by mug896">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-46702"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">mug896</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/46702" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 30, 2013, 03:35</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>awk '!($0 in a) {c++;a[$0]} END {exit(c==NR/2?0:1)}' file1 file2</p>
+<p>is not working..<br>
+test with this file contents</p>
+<p>$ cat d3.txt <br>
+……….[error]……… <br>
+…………id=AAA…… <br>
+…………id=CCC…… <br>
+……….[error]……… <br>
+…………id=AAS…… <br>
+……….[error]……… <br>
+…………id=ABC…… </p>
+<p>$ awk '!($0 in a) {c++;a[$0]} END {print(c==NR/2?0:1)}' d3.txt d3.txt <br>
+1 &lt;---- return 1 not 0 !!!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/46702?reply" class="reply" id="reply_a_46702" title="Reply to comment by mug896">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-47744"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/5247974bdb0288422c6e172e93718b30.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">CKP</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/47744" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2014, 14:30</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I have an input file "myfile" and a shell variable "VAR" whose<br>
+contents are shown below:</p>
+<p># cat myfile<br>
+Hello World<br>
+Hello Universe<br>
+# echo $VAR<br>
+World</p>
+<p>I need to process all lines in "myfile" which contains pattern "World"<br>
+using awk. It works if i do as shown below:</p>
+<p># awk '/World/ { print $0 }' myfile</p>
+<p>But i could not use VAR to do the same operation. I tried the<br>
+following even knowing that these will not work:</p>
+<p># awk '/$VAR/ { print $0 }' myfile</p>
+<p>and</p>
+<p># awk -v lvar=$VAR '/lvar/ { print $0 }' myfile</p>
+<p>and</p>
+<p># awk -v lvar=$VAR 'lvar { print $0 }' myfile</p>
+<p>Please let me know how to match the contents of VAR in awk.</p>
+<p>Thanks in advance</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/47744?reply" class="reply" id="reply_a_47744" title="Reply to comment by CKP">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-47866"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/6786c94712c8a602954ebb03bf0895fc.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Curtis Wilbar</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/47866" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 07, 2014, 16:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>This will work:</p>
+<p>awk -v lvar="${VAR}" 'match($0, lvar) { print $0 }' myfile</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/47866?reply" class="reply" id="reply_a_47866" title="Reply to comment by Curtis Wilbar">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-66883"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/339102c99b9ad9874ac53d251ca72322.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://sange.fi/~atehwa/" title="http://sange.fi/~atehwa/" rel="nofollow">atehwa</a></span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/66883" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 14, 2014, 13:03</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>In the section "Check whether two files contain the same data", 
+there is the claim that the awk solution is O(n).  However, this is 
+dependent on the associative array entry creation and lookup being 
+amortised O(1).  Surprisingly many utilities don't use such associative 
+arrays but instead have O(n) behaviour for sufficiently large data.  
+This can be caused by e.g. static hashtables or hashtables that resize 
+by a constant amount.</p>
+<p>If the hashtable implementation _is_ good, then the solution's 
+linearity depends on loading all data into memory.  If insufficient 
+memory is available, sort is often a faster alternative.  However, this 
+depends on many factors.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/66883?reply" class="reply" id="reply_a_66883" title="Reply to comment by atehwa">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-78386"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">sushma</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/78386" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 04, 2016, 15:10</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I have 3 block data with start and end time(Process Begining and 
+Proces Ending). I need to discard 2 block data (sql extract) and get 
+start and end time for one remaining</p>
+<p>log file looks like this<br>
+++++++++++++++++++++++++++++++++++++++<br>
+Process Beginning - 2016-04-02-00.36.13</p>
+<p>Putting Files To daADadD for File will move to /sadafJJHFASJFFASJ/</p>
+<p>Extract Files :-/ASFDSHAF_ABC_2016-04-02.csv 
+/ASFDSHAF_ABC.2016-04-02.csv / ASFDSHAF_ABC.2016-04-02.csv 
+/ASFDSHAF_ABC.2016-04-02.csv /</p>
+<p>Process Ending - 2016-04-02-00.36.36</p>
+<p>Process Beginning - 2016-04-02-10.01.20</p>
+<p>Putting Files To daADadD for File will move to /sadafJJHFASJFFASJ/</p>
+<p>Extract Files :-/sdshsdhsh_cvb.2016-04-02.csv /sqlextract.2016-04-02.csv /sqlextract.2016-04-02.csv</p>
+<p>Process Ending - 2016-04-02-10.01.21<br>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/78386?reply" class="reply" id="reply_a_78386" title="Reply to comment by sushma">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-78860"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/31228c8492b69258252af839fecfaf9a.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Karthick</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/78860" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 06, 2016, 11:51</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I have a log like below .</p>
+<p>pairing.releaser#001(126912) 2016/10/06 10:21:27 -FKSPT- {2:2} Write on UKFIR1P2:TSS_MTHIGH_Q.STS[native] </p>
+&lt;Message&gt;<p> unknown, id =&gt; (2)"-1", reference =&gt; 
+(16)"5545552600101647", relatedref =&gt; (16)"SCBLAD7702SCBLBM", 
+message_id =&gt; (28)"161006SCBLBHBMXXXX0068990683", system_id =&gt; 
+(30)"MTH20161006102056-01807-144959", userref =&gt; 
+(16)"OEE0610164968810", pairing_id =&gt; (0)"")&gt;<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {2} qput:MQSTATUS[UKFIR1P2:TSS_MTHIGH_Q.STS]: descriptor </p>
+&lt;Object&gt;<p> (24)"AMQ QM.MPS.LIV  \r\x92i\x07\x1A\xDB~\x81", identity =&gt; (0)"")&gt; and buffer </p>
+&lt;blob&gt;<p>pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} ============================================================<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} == Activity statistics for pairing.releaser#001(126912)<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} ============================================================<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} Deleted 4 checksum(s) (bu:ROOT) in database<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} Routed 4 
+message(s) (0/(6)"NO HIT"/ROOT/BH/STAR0027) to 
+UKFIR1P2:TSS_MTHIGH_Q.STS[native]<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} Poped 4 message(s) from retention<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} Released 4 individual message(s) (bu:ROOT)<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} 048ms / 83.486 TPS<br>
+pairing.releaser#001(126912) 2016/10/06 10:21:27 -INFOS- {1:2} ============================================================</p>
+<p>When i pass the message id "SCBLAD7702SCBLBM" i need to get the line i pasted above. Please help me with the command.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/78860?reply" class="reply" id="reply_a_78860" title="Reply to comment by Karthick">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-80921"></a>
+  <div class="gravatar">
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/a55b11de2898746b472d27721d023b01.jpg" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">andrea</span>
+
+
+
+        <span class="permalink"><a href="http://www.catonmat.net/c/80921" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">January 15, 2018, 11:31</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Fantastic WriteUp , thanks a million<br>
+found this , maybe ...<br>
+This<br>
+awk -v n=1 '/^FOO[0-9]*/{close("out"n);n++;next} {print &gt; "out"n}' file<br>
+should be?<br>
+awk -v n=1 '/^FOO[0-9]*/{close("out"n);n++;next} {print &gt; ("out"n)}' file</p>
+<p>to avoid <br>
+print &gt; &gt;&gt;&gt;  "out"n &lt;&lt;&lt;<br>
+awk: illegal statement at source line 1</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="http://www.catonmat.net/c/80921?reply" class="reply" id="reply_a_80921" title="Reply to comment by andrea">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+        <script>
+          catonmat.init_comments('page', '');
+        </script>
+    </div>
+
+    <div class="add">
+      <h3>Leave a new comment</h3>
+      
+
+<div id="comment_form">
+    <div id="comment_error" class="hidden"></div>
+
+    <div id="comment_preview" class="hidden"></div>
+
+  <form action="/blog/ten-awk-tips-tricks-and-pitfalls" method="POST">
+    <input name="page_id" id="page_id" value="100" type="hidden">
+    <input name="parent_id" id="parent_id" value="" type="hidden">
+
+    <p>
+      <label for="name" class="name">Name:</label>
+      <input tabindex="1" name="name" id="name" maxlength="64" size="30" type="text">
+    </p>
+    <div class="clear"></div>
+
+    <p>
+      <label for="email" class="email">E-mail:</label>
+      <input tabindex="2" name="email" id="email" maxlength="128" size="30" type="text">
+      <span class="small">(<a href="#" id="why_email_a" title="Why do I need your email?">why do I need your e-mail?</a>)</span>
+    </p>
+    <div class="clear"></div>
+
+    <div id="why_email_explain" class="hidden">
+      <p>
+        It would be nice if you left your e-mail address. Sometimes I 
+want to send a private message, or just thank for the great comment. 
+Having your e-mail really helps.
+      </p>
+      <p><b>I will never ever spam you.</b></p>
+    </div>
+
+    <p>
+      <label for="twitter" class="twitter">Twitter:</label>
+      <input tabindex="3" name="twitter" id="twitter" maxlength="128" size="30" type="text">
+      <span class="small">(Your twitter handle, if you have one.)</span>
+    </p>
+    <div class="clear"></div>
+
+    <p class="website">
+      <label for="website" class="website">Website:</label>
+      <input tabindex="4" name="website" id="website" maxlength="256" size="50" type="text">
+    </p>
+    <div class="clear"></div>
+
+    <div class="c">
+      <label for="comment" class="comment">Comment:</label>
+      <div class="a">
+        <p></p>
+        <textarea tabindex="5" name="comment" rows="8" cols="50" id="comment"></textarea>
+        <script>
+          if ($.browser.safari) {
+            /* i can't solve the 2px offset bug in chrome via css manipulations */
+            $('#comment_form .a').css('margin-left', '94px');
+
+            /* i also can't solve a problem of labels being offset by 3px in vertical direction */
+            $('#comment_form label').css('margin-top','3px')
+          }
+        </script>
+        <div class="comment-help-link"><a href="#" id="ch">Comment Help</a></div>
+        <div class="clear"></div>
+        <div id="comment_help" class="hidden">
+          <p>* use <code>&lt;pre&gt;...&lt;/pre&gt;</code> to insert a plain code snippet.</p>
+          <p>
+            * use <code>&lt;pre lang="<strong>lang</strong>"&gt;...&lt;/pre&gt;</code> to insert a syntax highlighted code snippet.<br>
+            For example, <code>&lt;pre lang="<strong>python</strong>"&gt;...&lt;/pre&gt;</code> will insert Python highlighted code.
+          </p>
+          <p>* use <code>&lt;code&gt;...&lt;/code&gt;</code> to highlight a variable or a single shell command.</p>
+          <p>* use <code>&lt;a href="url" nospam&gt;title&lt;/a&gt;</code> to insert links.</p>
+          <p>* use other HTML tags, such as, <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;blockquote&gt;</code>, <code>&lt;sup&gt;</code>, <code>&lt;sub&gt;</code> for text formatting.</p>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="e">
+      <p>
+        <input name="captcha_nr" value="1" type="hidden">
+        
+        Type the word "<b>computer_100</b>": <input tabindex="6" name="commentc" size="10" type="text"> (just to make sure you're a human)
+      </p>
+
+      <p>
+        <input tabindex="6" id="preview" name="preview" value="Preview comment" type="submit">
+        <input tabindex="7" id="submit" name="submit" value="Submit comment" type="submit">
+      </p>
+
+      <p>
+        <span id="comment_please">Please <b>preview</b> the comment before submitting to make sure it's OK.<br></span>
+      </p>
+    </div>
+
+  </form>
+</div>
+
+
+      <script>
+        catonmat.init_why_email();
+        catonmat.init_comment_help();
+        catonmat.init_preview_comment();
+        catonmat.init_submit_comment('');
+      </script>
+    </div>
+  </div>
+
+  <div class="after_comments_ads">
+    <h3>Advertisements</h3>
+    <div class="after_comments_ad300">
+      <script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/adsbygoogle.js"></script>
+      <!-- catonmat after comments -->
+      <ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-0433925538517663" data-ad-slot="2261906812" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></ins></ins></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <div class="clear">
+    </div>
+  </div>
+</div>
+
+
+
+
+        </div>
+        <div id="sidebar">
+          
+  <!-- begin sidebar.tmpl.html -->
+
+<div class="item search">
+  <form name="search" action="/search" method="GET">
+    <input name="q" type="text">
+    <input name="submit" value="Search" type="submit">
+  </form>
+</div>
+
+<!-- About the site -->
+<div class="item aboutsite">
+  <div class="title">About the site:</div>
+  <div class="content">
+    <p>
+      <a href="http://www.catonmat.net/about/" title="About Peter Krumins">
+        <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/peteris-krumins-small.jpg" alt="Peter Krumins" class="peter">
+      </a>
+      Peter Krumins' blog about programming, hacking, software reuse, 
+software ideas, computer security, browserling, google and technology.
+    </p>
+    <div class="hr"></div>
+    <p class="contact smallmargin">Reach me at:</p>
+    <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/peter-catonmat-net.gif" class="eml">
+    <p class="contact">Or meet me on:</p>
+    <div class="social">
+      <ul>
+        <li class="twitter"><a href="http://www.twitter.com/pkrumins"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/twitter-16x16.gif">Twitter</a></li>
+        <li class="facebook"><a href="http://www.facebook.com/pkrumins"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/facebook-16x16.gif">Facebook</a></li>
+        <!-- TODO: exchange plurk with github -->
+        <li class="more"><a href="#" id="a-more-contacts" class="more"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/more-10x10.gif" class="more">more</a></li>
+      </ul>
+      <div class="clear"></div>
+      <script>
+        catonmat.init_toggle_contacts();
+      </script>
+    </div>
+    <div class="social hidden" id="div-more-contacts">
+      <ul>
+        <li class="linkedin"><a href="http://www.linkedin.com/in/pkrumins"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/linkedin-16x16.gif">LinkedIn</a></li>
+        <li class="googleplus"><a href="https://plus.google.com/102155999275405024037"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/google-plus-16x16.png">Google+</a></li>
+      </ul>
+      <div class="clear"></div>
+      <div style="padding-bottom: 5px"></div>
+      <ul>
+        <li class="github"><a href="http://www.github.com/pkrumins"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/github-16x16.gif">GitHub</a></li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe to my posts -->
+<div class="item subscribe">
+  <div class="title">Subscribe to my posts:</div>
+  <div class="content">
+    <p>Subscribe through an RSS feed:</p>
+    <p class="feed">
+      <a href="http://feeds2.feedburner.com/catonmat" rel="alternate" type="application/rss+xml" class="rss" title="Catonmat RSS Feed">
+        <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/rss-feed-16x16.png" class="rss">
+        <img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/feedcounter-crontab.gif" class="counter" width="88" height="19">
+      </a>
+    </p>
+    <div class="hr"></div>
+    <p>Subscribe through email:</p>
+    <!-- begin generated by feedburner.com -->
+    <p>
+      </p><form style="border:1px solid #ccc;padding:3px;text-align:center;" action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=catonmat', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+        <p>Enter your email address:</p>
+        <p>
+          <input style="width:140px" name="email" type="text">
+        </p>
+        <input value="catonmat" name="uri" type="hidden">
+        <input name="loc" value="en_US" type="hidden">
+        <p>
+          <input value="Subscribe" type="submit">
+        </p>
+        <p>
+          Delivered by <a href="http://feedburner.google.com/" target="_blank">FeedBurner</a>
+        </p>
+      </form>
+    <p></p>
+    <!-- end generated by feedburner.com -->
+  </div>
+</div>
+
+
+<div class="item list">
+  <div class="title">My Books</div>
+  <div class="content">
+    <ul>
+      <li><a href="http://www.catonmat.net/blog/awk-book/">Awk Programming Book</a></li>
+      <li><a href="http://www.catonmat.net/blog/sed-book/">Sed Programming Book</a></li>
+      <li><a href="http://www.catonmat.net/blog/perl-book/">Perl Programming Book</a></li>
+      <li><a href="http://www.catonmat.net/blog/perl-one-liners-no-starch-press/">Another Perl Programming Book</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Top Ten Articles:</div>
+  <div class="content">
+    <ul>
+     <li><a href="http://www.catonmat.net/blog/linux-socks5-proxy/" title="Read &quot;Turn any Linux computer into SOCKS5 proxy in one command&quot; (has been read 1,456,812 times)">Turn any Linux computer into SOCKS5 proxy in one command</a></li>
+     <li><a href="http://www.catonmat.net/blog/top-ten-one-liners-from-commandlinefu-explained/" title="Read &quot;Top Ten One-Liners from CommandLineFu Explained&quot; (has been read 1,292,235 times)">Top Ten One-Liners from CommandLineFu Explained</a></li>
+     <li><a href="http://www.catonmat.net/blog/my-job-interview-at-google/" title="Read &quot;My Job Interview at Google&quot; (has been read 1,238,994 times)">My Job Interview at Google</a></li>
+     <li><a href="http://www.catonmat.net/blog/sed-one-liners-explained-part-one/" title="Read &quot;Sed One-Liners Explained, Part I: File Spacing, Numbering and Text Conversion and Substitution&quot; (has been read 1,190,927 times)">Sed One-Liners Explained, Part I: File Spacing, Numbering and Text Conversion and Substitution</a></li>
+     <li><a href="http://www.catonmat.net/blog/mit-introduction-to-algorithms-part-one/" title="Read &quot;MIT's Introduction to Algorithms, Lectures 1 and 2: Analysis of Algorithms&quot; (has been read 976,226 times)">MIT's Introduction to Algorithms, Lectures 1 and 2: Analysis of Algorithms</a></li>
+     <li><a href="http://www.catonmat.net/http-proxy-in-nodejs/" title="Read &quot;A HTTP Proxy Server in 20 Lines of node.js Code&quot; (has been read 963,436 times)">A HTTP Proxy Server in 20 Lines of node.js Code</a></li>
+     <li><a href="http://www.catonmat.net/blog/low-level-bit-hacks/" title="Read &quot;Low Level Bit Hacks&quot; (has been read 929,895 times)">Low Level Bit Hacks</a></li>
+     <li><a href="http://www.catonmat.net/blog/awk-one-liners-explained-part-one/" title="Read &quot;Awk One-Liners Explained, Part I: File Spacing, Numbering and Calculations&quot; (has been read 850,010 times)">Awk One-Liners Explained, Part I: File Spacing, Numbering and Calculations</a></li>
+     <li><a href="http://www.catonmat.net/blog/the-definitive-guide-to-bash-command-line-history/" title="Read &quot;The Definitive Guide to Bash Command Line History&quot; (has been read 809,873 times)">The Definitive Guide to Bash Command Line History</a></li>
+     <li><a href="http://www.catonmat.net/blog/bash-vi-editing-mode-cheat-sheet/" title="Read &quot;Working Productively in Bash's Vi Command Line Editing Mode (with Cheat Sheet)&quot; (has been read 720,681 times)">Working Productively in Bash's Vi Command Line Editing Mode (with Cheat Sheet)</a></li>
+    </ul>
+    <p class="moreinfo">
+      <a href="http://www.catonmat.net/archive?sorted_by=views" title="Top catonmat articles">See all top articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Top Ten Downloads:</div>
+  <div class="content">
+    <ul>
+    <li><a href="http://www.catonmat.net/download/perl1line.txt" title="Download &quot;perl1line.txt&quot;">perl1line.txt</a> (<span title="Total 418,613 downloads">418,613</span>)</li>
+    <li><a href="http://www.catonmat.net/download/bash-redirections-cheat-sheet.pdf" title="Download &quot;bash redirections cheat sheet (.pdf)&quot;">bash redirections cheat sheet (.pdf)</a> (<span title="Total 283,684 downloads">283,684</span>)</li>
+    <li><a href="http://www.catonmat.net/download/bash-history-cheat-sheet.pdf" title="Download &quot;bash history cheat sheet (.pdf)&quot;">bash history cheat sheet (.pdf)</a> (<span title="Total 245,048 downloads">245,048</span>)</li>
+    <li><a href="http://www.catonmat.net/download/awk.cheat.sheet.pdf" title="Download &quot;awk cheat sheet (.pdf)&quot;">awk cheat sheet (.pdf)</a> (<span title="Total 243,361 downloads">243,361</span>)</li>
+    <li><a href="http://www.catonmat.net/download/sed.stream.editor.cheat.sheet.pdf" title="Download &quot;sed stream editor cheat sheet (.pdf)&quot;">sed stream editor cheat sheet (.pdf)</a> (<span title="Total 185,193 downloads">185,193</span>)</li>
+    <li><a href="http://www.catonmat.net/download/bash-vi-editing-mode-cheat-sheet.pdf" title="Download &quot;bash vi editing mode cheat sheet (.pdf)&quot;">bash vi editing mode cheat sheet (.pdf)</a> (<span title="Total 184,551 downloads">184,551</span>)</li>
+    <li><a href="http://www.catonmat.net/download/screen.cheat.sheet.pdf" title="Download &quot;screen cheat sheet (.pdf)&quot;">screen cheat sheet (.pdf)</a> (<span title="Total 182,732 downloads">182,732</span>)</li>
+    <li><a href="http://www.catonmat.net/download/perl.pack.unpack.printf.cheat.sheet.pdf" title="Download &quot;perl's pack/unpack and printf cheat sheet (.pdf)&quot;">perl's pack/unpack and printf cheat sheet (.pdf)</a> (<span title="Total 164,095 downloads">164,095</span>)</li>
+    <li><a href="http://www.catonmat.net/download/awk.cheat.sheet.txt" title="Download &quot;awk cheat sheet (.txt)&quot;">awk cheat sheet (.txt)</a> (<span title="Total 157,760 downloads">157,760</span>)</li>
+    <li><a href="http://www.catonmat.net/download/perl.predefined.variables.pdf" title="Download &quot;perl's special variable cheat sheet (.pdf)&quot;">perl's special variable cheat sheet (.pdf)</a> (<span title="Total 148,403 downloads">148,403</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="http://www.catonmat.net/downloads" title="All catonmat downloads">See all downloads</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Recent Articles:</div>
+  <div class="content">
+    <ul>
+     <li><a href="http://www.catonmat.net/blog/fractal-generators-part-four/" title="Read &quot;Fractal Generators, Part 4&quot; (was published on November 20, 2018)">Fractal Generators, Part 4</a></li>
+     <li><a href="http://www.catonmat.net/blog/boom-tetris-for-jonas/" title="Read &quot;Boom! Tetris for Jonas!&quot; (was published on November 03, 2018)">Boom! Tetris for Jonas!</a></li>
+     <li><a href="http://www.catonmat.net/blog/online-utf8-tools/" title="Read &quot;Fifteenth site in online tools network: onlineUTF8tools.com&quot; (was published on October 19, 2018)">Fifteenth site in online tools network: onlineUTF8tools.com</a></li>
+     <li><a href="http://www.catonmat.net/blog/browserling-top-30k-website/" title="Read &quot;Browserling is now a top 30k website in the world&quot; (was published on October 10, 2018)">Browserling is now a top 30k website in the world</a></li>
+     <li><a href="http://www.catonmat.net/blog/perl-one-liners-in-humble-bundle-again/" title="Read &quot;My book Perl One Liners is in Humble Book Bundle again!&quot; (was published on September 25, 2018)">My book Perl One Liners is in Humble Book Bundle again!</a></li>
+     <li><a href="http://www.catonmat.net/blog/draw-even-more-fractal-curves/" title="Read &quot;Even More Fractal Curve Generators&quot; (was published on September 16, 2018)">Even More Fractal Curve Generators</a></li>
+     <li><a href="http://www.catonmat.net/blog/online-image-tools/" title="Read &quot;Fourteenth site in online tools network: onlineIMAGEtools.com &quot; (was published on September 07, 2018)">Fourteenth site in online tools network: onlineIMAGEtools.com </a></li>
+     <li><a href="http://www.catonmat.net/blog/coffee-in-code-out/" title="Read &quot;Coffee in, code out&quot; (was published on September 01, 2018)">Coffee in, code out</a></li>
+     <li><a href="http://www.catonmat.net/blog/draw-more-fractal-curves/" title="Read &quot;More Fractal Curve Generators&quot; (was published on August 21, 2018)">More Fractal Curve Generators</a></li>
+     <li><a href="http://www.catonmat.net/blog/candy-in-code-out/" title="Read &quot;Candy in, code out&quot; (was published on August 20, 2018)">Candy in, code out</a></li>
+    </ul>
+    <p class="moreinfo">
+      <a href="http://www.catonmat.net/archive" title="All catonmat articles">See more detailed list of recent articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Article Categories:</div>
+  <div class="content">
+    <ul>
+      
+      <li><a href="http://www.catonmat.net/category/awk-programming" title="Awk Programming: Awk is a very important Unix programming language for manipulating text very quickly. It's included in every Unix and Linux distribution and you should know it inside out. Here are my tutorials about it.">Awk Programming</a> (<span title="There are 8 articles in &quot;Awk Programming&quot; category">8</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/browserling" title="Browserling: Articles about my and James Halliday's startup - Browserling - live interactive web-based cross-browser testing! (Earlier called StackVM, which brings virtual machines to the web.) ">Browserling</a> (<span title="There are 121 articles in &quot;Browserling&quot; category">121</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/cheat-sheets" title="Cheat Sheets: All kinds of programming and computer science cheat sheets - vt100/ansi cheat sheet, shell emacs editing mode cheat sheet, iptables cheat sheets and many many others.">Cheat Sheets</a> (<span title="There are 13 articles in &quot;Cheat Sheets&quot; category">13</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/computer-science" title="Computer Science: I love computer science.">Computer Science</a> (<span title="There are 9 articles in &quot;Computer Science&quot; category">9</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/hackers-approach" title="Hacker's Approach: Using the hacker's approach one can develop cool software in a matter of hours without really going into details how it all works but using the right pieces and putting them together. Also a real hacker would be able to do the right things with the wrong tools.">Hacker's Approach</a> (<span title="There are 8 articles in &quot;Hacker's Approach&quot; category">8</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/howto" title="Howto: Howto guides - howto download youtube videos, how to upload them, how to be a real hacker, how to become immortal, etc ;)">Howto</a> (<span title="There are 12 articles in &quot;Howto&quot; category">12</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/ideas-for-later" title="Ideas for Later: Ideas that I want to build at some time later.">Ideas for Later</a> (<span title="There are 1 articles in &quot;Ideas for Later&quot; category">1</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/interviews" title="Interviews: Interviews with me.">Interviews</a> (<span title="There are 9 articles in &quot;Interviews&quot; category">9</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/introduction-to-algorithms" title="Introduction to Algorithms: Analysis of MIT's &quot;Introduction to Algorithms&quot; video lectures. Contains embedded videos with timestamped list of topics and scanned lecture notes.">Introduction to Algorithms</a> (<span title="There are 15 articles in &quot;Introduction to Algorithms&quot; category">15</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/linear-algebra" title="Linear Algebra: Analysis of MIT's &quot;Linear Algebra&quot; course. Contains embedded videos with timestamped list of topics and scanned lecture notes.">Linear Algebra</a> (<span title="There are 6 articles in &quot;Linear Algebra&quot; category">6</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/mathematics" title="Mathematics: A good computer scientist has to know mathematics.">Mathematics</a> (<span title="There are 1 articles in &quot;Mathematics&quot; category">1</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/misc" title="Misc: Articles that don't fit in other categories. They include interviews and blogging related stuff.">Misc</a> (<span title="There are 48 articles in &quot;Misc&quot; category">48</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/musical-geek-friday" title="Musical Geek Friday: Really funny and geeky songs I found in my mp3 collection.">Musical Geek Friday</a> (<span title="There are 17 articles in &quot;Musical Geek Friday&quot; category">17</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/my-favorite-books" title="My Favorite Books: My favorite programming books, software development books, coding books, physics books, chemistry books, mathematics books, and science books.">My Favorite Books</a> (<span title="There are 7 articles in &quot;My Favorite Books&quot; category">7</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/nodejs-modules" title="Node.js Modules: Here is a list of node.js modules you should know about. We use these at Browserling and Testling and it's great!">Node.js Modules</a> (<span title="There are 15 articles in &quot;Node.js Modules&quot; category">15</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/perl-programming" title="Perl Programming: Perl is my favorite and one of the hackiest languages ever invented. I get things done with quickly. Here are some of tutorials that I wrote about it.">Perl Programming</a> (<span title="There are 16 articles in &quot;Perl Programming&quot; category">16</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/programming" title="Programming: I love programming!">Programming</a> (<span title="There are 38 articles in &quot;Programming&quot; category">38</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/projects" title="Projects: All the various projects that I have done, they include digpicz, reddit media, reddit river, and others.">Projects</a> (<span title="There are 13 articles in &quot;Projects&quot; category">13</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/security" title="Security: Computer security is a field close to my heart.">Security</a> (<span title="There are 4 articles in &quot;Security&quot; category">4</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/the-new-catonmat" title="The New Catonmat: Everything about the new catonmat website.">The New Catonmat</a> (<span title="There are 1 articles in &quot;The New Catonmat&quot; category">1</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/tools" title="Tools: Tools - small programs that do great things. Actually this category is not very useful, I am going to merge it with some other category soon.">Tools</a> (<span title="There are 1 articles in &quot;Tools&quot; category">1</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/unix-shell" title="Unix Shell: This category contains various articles on how to work in the Unix shell.">Unix Shell</a> (<span title="There are 31 articles in &quot;Unix Shell&quot; category">31</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/video-lectures" title="Video Lectures: I love watching video lectures and tech talks. Here are some of my favorite videos.">Video Lectures</a> (<span title="There are 18 articles in &quot;Video Lectures&quot; category">18</span>)</li>
+      
+      <li><a href="http://www.catonmat.net/category/visual-math-friday" title="Visual Math Friday: I have collected hundreds of visual math proofs. In these articles I explain them and prove their correctness.">Visual Math Friday</a> (<span title="There are 1 articles in &quot;Visual Math Friday&quot; category">1</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="http://www.catonmat.net/categories" title="Detailed catonmat category information">See more detailed category information</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Article Archive:</div>
+  <div class="content">
+    <ul>
+     <li><a href="http://www.catonmat.net/archive/2018/11" title="All articles written in November, 2018" rel="nofollow">November, 2018</a> (<span title="2 articles were published in November, 2018">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/10" title="All articles written in October, 2018" rel="nofollow">October, 2018</a> (<span title="2 articles were published in October, 2018">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/09" title="All articles written in September, 2018" rel="nofollow">September, 2018</a> (<span title="4 articles were published in September, 2018">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/08" title="All articles written in August, 2018" rel="nofollow">August, 2018</a> (<span title="4 articles were published in August, 2018">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/07" title="All articles written in July, 2018" rel="nofollow">July, 2018</a> (<span title="5 articles were published in July, 2018">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/06" title="All articles written in June, 2018" rel="nofollow">June, 2018</a> (<span title="3 articles were published in June, 2018">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/05" title="All articles written in May, 2018" rel="nofollow">May, 2018</a> (<span title="5 articles were published in May, 2018">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/04" title="All articles written in April, 2018" rel="nofollow">April, 2018</a> (<span title="1 articles were published in April, 2018">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/03" title="All articles written in March, 2018" rel="nofollow">March, 2018</a> (<span title="2 articles were published in March, 2018">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/02" title="All articles written in February, 2018" rel="nofollow">February, 2018</a> (<span title="3 articles were published in February, 2018">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2018/01" title="All articles written in January, 2018" rel="nofollow">January, 2018</a> (<span title="6 articles were published in January, 2018">6</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/12" title="All articles written in December, 2017" rel="nofollow">December, 2017</a> (<span title="5 articles were published in December, 2017">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/11" title="All articles written in November, 2017" rel="nofollow">November, 2017</a> (<span title="8 articles were published in November, 2017">8</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/10" title="All articles written in October, 2017" rel="nofollow">October, 2017</a> (<span title="5 articles were published in October, 2017">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/09" title="All articles written in September, 2017" rel="nofollow">September, 2017</a> (<span title="1 articles were published in September, 2017">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/08" title="All articles written in August, 2017" rel="nofollow">August, 2017</a> (<span title="4 articles were published in August, 2017">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/07" title="All articles written in July, 2017" rel="nofollow">July, 2017</a> (<span title="3 articles were published in July, 2017">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/06" title="All articles written in June, 2017" rel="nofollow">June, 2017</a> (<span title="1 articles were published in June, 2017">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/05" title="All articles written in May, 2017" rel="nofollow">May, 2017</a> (<span title="1 articles were published in May, 2017">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/04" title="All articles written in April, 2017" rel="nofollow">April, 2017</a> (<span title="4 articles were published in April, 2017">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/03" title="All articles written in March, 2017" rel="nofollow">March, 2017</a> (<span title="2 articles were published in March, 2017">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/02" title="All articles written in February, 2017" rel="nofollow">February, 2017</a> (<span title="4 articles were published in February, 2017">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2017/01" title="All articles written in January, 2017" rel="nofollow">January, 2017</a> (<span title="1 articles were published in January, 2017">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/12" title="All articles written in December, 2016" rel="nofollow">December, 2016</a> (<span title="5 articles were published in December, 2016">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/11" title="All articles written in November, 2016" rel="nofollow">November, 2016</a> (<span title="2 articles were published in November, 2016">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/10" title="All articles written in October, 2016" rel="nofollow">October, 2016</a> (<span title="2 articles were published in October, 2016">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/09" title="All articles written in September, 2016" rel="nofollow">September, 2016</a> (<span title="2 articles were published in September, 2016">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/08" title="All articles written in August, 2016" rel="nofollow">August, 2016</a> (<span title="3 articles were published in August, 2016">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/07" title="All articles written in July, 2016" rel="nofollow">July, 2016</a> (<span title="3 articles were published in July, 2016">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/06" title="All articles written in June, 2016" rel="nofollow">June, 2016</a> (<span title="1 articles were published in June, 2016">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/05" title="All articles written in May, 2016" rel="nofollow">May, 2016</a> (<span title="1 articles were published in May, 2016">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/04" title="All articles written in April, 2016" rel="nofollow">April, 2016</a> (<span title="1 articles were published in April, 2016">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/03" title="All articles written in March, 2016" rel="nofollow">March, 2016</a> (<span title="5 articles were published in March, 2016">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/02" title="All articles written in February, 2016" rel="nofollow">February, 2016</a> (<span title="1 articles were published in February, 2016">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2016/01" title="All articles written in January, 2016" rel="nofollow">January, 2016</a> (<span title="4 articles were published in January, 2016">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/12" title="All articles written in December, 2015" rel="nofollow">December, 2015</a> (<span title="4 articles were published in December, 2015">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/11" title="All articles written in November, 2015" rel="nofollow">November, 2015</a> (<span title="4 articles were published in November, 2015">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/10" title="All articles written in October, 2015" rel="nofollow">October, 2015</a> (<span title="7 articles were published in October, 2015">7</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/09" title="All articles written in September, 2015" rel="nofollow">September, 2015</a> (<span title="9 articles were published in September, 2015">9</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/08" title="All articles written in August, 2015" rel="nofollow">August, 2015</a> (<span title="1 articles were published in August, 2015">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/07" title="All articles written in July, 2015" rel="nofollow">July, 2015</a> (<span title="2 articles were published in July, 2015">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/06" title="All articles written in June, 2015" rel="nofollow">June, 2015</a> (<span title="2 articles were published in June, 2015">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/05" title="All articles written in May, 2015" rel="nofollow">May, 2015</a> (<span title="1 articles were published in May, 2015">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/04" title="All articles written in April, 2015" rel="nofollow">April, 2015</a> (<span title="6 articles were published in April, 2015">6</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/03" title="All articles written in March, 2015" rel="nofollow">March, 2015</a> (<span title="1 articles were published in March, 2015">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/02" title="All articles written in February, 2015" rel="nofollow">February, 2015</a> (<span title="1 articles were published in February, 2015">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2015/01" title="All articles written in January, 2015" rel="nofollow">January, 2015</a> (<span title="1 articles were published in January, 2015">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/12" title="All articles written in December, 2014" rel="nofollow">December, 2014</a> (<span title="1 articles were published in December, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/11" title="All articles written in November, 2014" rel="nofollow">November, 2014</a> (<span title="1 articles were published in November, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/10" title="All articles written in October, 2014" rel="nofollow">October, 2014</a> (<span title="2 articles were published in October, 2014">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/09" title="All articles written in September, 2014" rel="nofollow">September, 2014</a> (<span title="1 articles were published in September, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/08" title="All articles written in August, 2014" rel="nofollow">August, 2014</a> (<span title="1 articles were published in August, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/07" title="All articles written in July, 2014" rel="nofollow">July, 2014</a> (<span title="1 articles were published in July, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/06" title="All articles written in June, 2014" rel="nofollow">June, 2014</a> (<span title="1 articles were published in June, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/05" title="All articles written in May, 2014" rel="nofollow">May, 2014</a> (<span title="1 articles were published in May, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/04" title="All articles written in April, 2014" rel="nofollow">April, 2014</a> (<span title="1 articles were published in April, 2014">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/03" title="All articles written in March, 2014" rel="nofollow">March, 2014</a> (<span title="3 articles were published in March, 2014">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/02" title="All articles written in February, 2014" rel="nofollow">February, 2014</a> (<span title="3 articles were published in February, 2014">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2014/01" title="All articles written in January, 2014" rel="nofollow">January, 2014</a> (<span title="5 articles were published in January, 2014">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/12" title="All articles written in December, 2013" rel="nofollow">December, 2013</a> (<span title="1 articles were published in December, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/11" title="All articles written in November, 2013" rel="nofollow">November, 2013</a> (<span title="1 articles were published in November, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/10" title="All articles written in October, 2013" rel="nofollow">October, 2013</a> (<span title="1 articles were published in October, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/09" title="All articles written in September, 2013" rel="nofollow">September, 2013</a> (<span title="1 articles were published in September, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/08" title="All articles written in August, 2013" rel="nofollow">August, 2013</a> (<span title="1 articles were published in August, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/07" title="All articles written in July, 2013" rel="nofollow">July, 2013</a> (<span title="1 articles were published in July, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/06" title="All articles written in June, 2013" rel="nofollow">June, 2013</a> (<span title="1 articles were published in June, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/05" title="All articles written in May, 2013" rel="nofollow">May, 2013</a> (<span title="1 articles were published in May, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/04" title="All articles written in April, 2013" rel="nofollow">April, 2013</a> (<span title="1 articles were published in April, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/03" title="All articles written in March, 2013" rel="nofollow">March, 2013</a> (<span title="1 articles were published in March, 2013">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/02" title="All articles written in February, 2013" rel="nofollow">February, 2013</a> (<span title="2 articles were published in February, 2013">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2013/01" title="All articles written in January, 2013" rel="nofollow">January, 2013</a> (<span title="4 articles were published in January, 2013">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/12" title="All articles written in December, 2012" rel="nofollow">December, 2012</a> (<span title="1 articles were published in December, 2012">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/11" title="All articles written in November, 2012" rel="nofollow">November, 2012</a> (<span title="3 articles were published in November, 2012">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/10" title="All articles written in October, 2012" rel="nofollow">October, 2012</a> (<span title="4 articles were published in October, 2012">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/09" title="All articles written in September, 2012" rel="nofollow">September, 2012</a> (<span title="3 articles were published in September, 2012">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/08" title="All articles written in August, 2012" rel="nofollow">August, 2012</a> (<span title="2 articles were published in August, 2012">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/07" title="All articles written in July, 2012" rel="nofollow">July, 2012</a> (<span title="2 articles were published in July, 2012">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/06" title="All articles written in June, 2012" rel="nofollow">June, 2012</a> (<span title="1 articles were published in June, 2012">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/05" title="All articles written in May, 2012" rel="nofollow">May, 2012</a> (<span title="4 articles were published in May, 2012">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/04" title="All articles written in April, 2012" rel="nofollow">April, 2012</a> (<span title="3 articles were published in April, 2012">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/03" title="All articles written in March, 2012" rel="nofollow">March, 2012</a> (<span title="2 articles were published in March, 2012">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/02" title="All articles written in February, 2012" rel="nofollow">February, 2012</a> (<span title="1 articles were published in February, 2012">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2012/01" title="All articles written in January, 2012" rel="nofollow">January, 2012</a> (<span title="4 articles were published in January, 2012">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/12" title="All articles written in December, 2011" rel="nofollow">December, 2011</a> (<span title="15 articles were published in December, 2011">15</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/11" title="All articles written in November, 2011" rel="nofollow">November, 2011</a> (<span title="3 articles were published in November, 2011">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/10" title="All articles written in October, 2011" rel="nofollow">October, 2011</a> (<span title="2 articles were published in October, 2011">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/09" title="All articles written in September, 2011" rel="nofollow">September, 2011</a> (<span title="2 articles were published in September, 2011">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/08" title="All articles written in August, 2011" rel="nofollow">August, 2011</a> (<span title="3 articles were published in August, 2011">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/07" title="All articles written in July, 2011" rel="nofollow">July, 2011</a> (<span title="1 articles were published in July, 2011">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/06" title="All articles written in June, 2011" rel="nofollow">June, 2011</a> (<span title="2 articles were published in June, 2011">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/05" title="All articles written in May, 2011" rel="nofollow">May, 2011</a> (<span title="1 articles were published in May, 2011">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/04" title="All articles written in April, 2011" rel="nofollow">April, 2011</a> (<span title="1 articles were published in April, 2011">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/03" title="All articles written in March, 2011" rel="nofollow">March, 2011</a> (<span title="2 articles were published in March, 2011">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/02" title="All articles written in February, 2011" rel="nofollow">February, 2011</a> (<span title="2 articles were published in February, 2011">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2011/01" title="All articles written in January, 2011" rel="nofollow">January, 2011</a> (<span title="1 articles were published in January, 2011">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/12" title="All articles written in December, 2010" rel="nofollow">December, 2010</a> (<span title="2 articles were published in December, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/11" title="All articles written in November, 2010" rel="nofollow">November, 2010</a> (<span title="1 articles were published in November, 2010">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/10" title="All articles written in October, 2010" rel="nofollow">October, 2010</a> (<span title="2 articles were published in October, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/09" title="All articles written in September, 2010" rel="nofollow">September, 2010</a> (<span title="1 articles were published in September, 2010">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/08" title="All articles written in August, 2010" rel="nofollow">August, 2010</a> (<span title="2 articles were published in August, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/07" title="All articles written in July, 2010" rel="nofollow">July, 2010</a> (<span title="2 articles were published in July, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/06" title="All articles written in June, 2010" rel="nofollow">June, 2010</a> (<span title="2 articles were published in June, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/05" title="All articles written in May, 2010" rel="nofollow">May, 2010</a> (<span title="2 articles were published in May, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/04" title="All articles written in April, 2010" rel="nofollow">April, 2010</a> (<span title="2 articles were published in April, 2010">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/03" title="All articles written in March, 2010" rel="nofollow">March, 2010</a> (<span title="5 articles were published in March, 2010">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/02" title="All articles written in February, 2010" rel="nofollow">February, 2010</a> (<span title="5 articles were published in February, 2010">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2010/01" title="All articles written in January, 2010" rel="nofollow">January, 2010</a> (<span title="7 articles were published in January, 2010">7</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/12" title="All articles written in December, 2009" rel="nofollow">December, 2009</a> (<span title="6 articles were published in December, 2009">6</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/11" title="All articles written in November, 2009" rel="nofollow">November, 2009</a> (<span title="6 articles were published in November, 2009">6</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/10" title="All articles written in October, 2009" rel="nofollow">October, 2009</a> (<span title="2 articles were published in October, 2009">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/09" title="All articles written in September, 2009" rel="nofollow">September, 2009</a> (<span title="3 articles were published in September, 2009">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/08" title="All articles written in August, 2009" rel="nofollow">August, 2009</a> (<span title="2 articles were published in August, 2009">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/07" title="All articles written in July, 2009" rel="nofollow">July, 2009</a> (<span title="4 articles were published in July, 2009">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/06" title="All articles written in June, 2009" rel="nofollow">June, 2009</a> (<span title="1 articles were published in June, 2009">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/05" title="All articles written in May, 2009" rel="nofollow">May, 2009</a> (<span title="1 articles were published in May, 2009">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/04" title="All articles written in April, 2009" rel="nofollow">April, 2009</a> (<span title="1 articles were published in April, 2009">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/03" title="All articles written in March, 2009" rel="nofollow">March, 2009</a> (<span title="2 articles were published in March, 2009">2</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/02" title="All articles written in February, 2009" rel="nofollow">February, 2009</a> (<span title="7 articles were published in February, 2009">7</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2009/01" title="All articles written in January, 2009" rel="nofollow">January, 2009</a> (<span title="4 articles were published in January, 2009">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/12" title="All articles written in December, 2008" rel="nofollow">December, 2008</a> (<span title="8 articles were published in December, 2008">8</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/11" title="All articles written in November, 2008" rel="nofollow">November, 2008</a> (<span title="7 articles were published in November, 2008">7</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/10" title="All articles written in October, 2008" rel="nofollow">October, 2008</a> (<span title="5 articles were published in October, 2008">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/09" title="All articles written in September, 2008" rel="nofollow">September, 2008</a> (<span title="5 articles were published in September, 2008">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/08" title="All articles written in August, 2008" rel="nofollow">August, 2008</a> (<span title="9 articles were published in August, 2008">9</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/07" title="All articles written in July, 2008" rel="nofollow">July, 2008</a> (<span title="14 articles were published in July, 2008">14</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/06" title="All articles written in June, 2008" rel="nofollow">June, 2008</a> (<span title="4 articles were published in June, 2008">4</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/05" title="All articles written in May, 2008" rel="nofollow">May, 2008</a> (<span title="5 articles were published in May, 2008">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/04" title="All articles written in April, 2008" rel="nofollow">April, 2008</a> (<span title="8 articles were published in April, 2008">8</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/03" title="All articles written in March, 2008" rel="nofollow">March, 2008</a> (<span title="3 articles were published in March, 2008">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/02" title="All articles written in February, 2008" rel="nofollow">February, 2008</a> (<span title="1 articles were published in February, 2008">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2008/01" title="All articles written in January, 2008" rel="nofollow">January, 2008</a> (<span title="1 articles were published in January, 2008">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/12" title="All articles written in December, 2007" rel="nofollow">December, 2007</a> (<span title="1 articles were published in December, 2007">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/11" title="All articles written in November, 2007" rel="nofollow">November, 2007</a> (<span title="1 articles were published in November, 2007">1</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/10" title="All articles written in October, 2007" rel="nofollow">October, 2007</a> (<span title="3 articles were published in October, 2007">3</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/09" title="All articles written in September, 2007" rel="nofollow">September, 2007</a> (<span title="5 articles were published in September, 2007">5</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/08" title="All articles written in August, 2007" rel="nofollow">August, 2007</a> (<span title="10 articles were published in August, 2007">10</span>)</li>
+     <li><a href="http://www.catonmat.net/archive/2007/07" title="All articles written in July, 2007" rel="nofollow">July, 2007</a> (<span title="9 articles were published in July, 2007">9</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="http://www.catonmat.net/archive" title="All catonmat articles">See more detailed list of all articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item">
+  <div class="title">Advertisements</div>
+  <div class="content">
+    <script async="" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/adsbygoogle.js"></script>
+    <!-- 160x600, catonmat sidebar, created 2/15/09 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-0433925538517663" data-ad-slot="2288848838" data-adsbygoogle-status="done"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><ins id="aswift_3_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0px;width:160px;height:600px;" width="160" height="600" frameborder="0"></iframe></ins></ins></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</div>
+
+
+<!-- end sidebar.tmpl.html -->
+
+
+
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div id="footer">
+        
+  <center>
+<a href="http://www.amazon.com/The-Little-Schemer-4th-Edition/dp/0262560992"><img src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/jelly-stains.gif"></a>
+</center>
+
+
+      </div>
+    </div>
+
+<!-- google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-273333-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=3189873;
+var sc_invisible=1;
+var sc_security="dc7255a7";
+</script>
+
+<script type="text/javascript" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/counter_xhtml.js"></script><noscript><div class="statcounter"><a title="tumblr tracker" class="statcounter" href="http://statcounter.com/tumblr/"><img class="statcounter" src="http://c.statcounter.com/3189873/0/dc7255a7/1/" alt="tumblr tracker" /></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+<!-- facebook pixel -->
+<script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1256130351091056'); // Insert your pixel ID here.
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1256130351091056&ev=PageView&noscript=1"
+    /></noscript>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<iframe id="google_osd_static_frame_3956701420080" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body><iframe id="google_esf" name="google_esf" src="10%20Awk%20Tips,%20Tricks%20and%20Pitfalls%20-%20good%20coders%20code,%20great%20coders%20reuse_files/zrt_lookup.html" style="display: none;" data-ad-client="ca-pub-0433925538517663"></iframe></html>
