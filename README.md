@@ -8,6 +8,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 ## Quick How-tos
  * [30 Examples for Awk Command in Text Processing](https://likegeeks.com/awk-command/)
  * [AWK crashcourse](https://github.com/freznicek/awk-crashcourse/blob/master/README.md)
+ * [30 seconds of AWK code](https://github.com/freznicek/30-seconds-of-awk-code/blob/master/README.md)
  * [Awk - A useful little language](https://dev.to/rrampage/awk---a-useful-little-language-2fhf)
  * [My best AWK tricks](https://blog.jpalardy.com/posts/my-best-awk-tricks/)
  * [10 Awk Tips, Tricks and Pitfalls](http://www.catonmat.net/blog/ten-awk-tips-tricks-and-pitfalls)
