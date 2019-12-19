@@ -26,7 +26,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 ## Documentation
 
  * [Gawk: Effective AWK Programming](https://www.gnu.org/software/gawk/manual/)
- * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/)
+ * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/gawkinet.html)
  * man pages: [mawk](http://invisible-island.net/mawk/manpage/mawk.html), [gawk](https://linux.die.net/man/1/gawk)
 
 
@@ -48,7 +48,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * recommended
    * [gawk project](https://savannah.gnu.org/projects/gawk/) ([source-code](http://git.savannah.gnu.org/cgit/gawk.git))
    * [mawk project](http://invisible-island.net/mawk/mawk.html) ([source-code](https://github.com/ThomasDickey))
- * others
+ * others (less recommended)
    * [BusyBox project](https://www.busybox.net/) contains also independent awk implementation ([source-code](https://git.busybox.net/busybox))
    * [jawk](http://jawk.sourceforge.net/)
    * [pawk](https://github.com/jasontrigg0/pawk)
