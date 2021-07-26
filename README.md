@@ -23,7 +23,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [Awk Introduction and Resources by Frank Moraes](https://www.whoishostingthis.com/resources/awk/)
  * [A guide to intermediate awk scripting](https://opensource.com/article/19/11/intermediate-awk-scripting)
  * [Advance your awk skills with two easy tutorials](https://opensource.com/article/19/10/advanced-awk)
- * [awk is the coolest tool you don't know](gemini://drewdevault.com/2021/05/03/awk-is-the-coolest-tool-you-dont-know.gmi)
+ * [awk is the coolest tool you don't know](https://portal.mozz.us/gemini/drewdevault.com/2021/05/03/awk-is-the-coolest-tool-you-dont-know.gmi)
 
 
 ## Documentation
