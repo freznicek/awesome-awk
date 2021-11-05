@@ -1,7 +1,7 @@
 # awesome-awk
 A curated list of awesome AWK frameworks, libraries, software and resources.
 
-[Brief AWK history](https://en.wikipedia.org/wiki/AWK#History) and [more detailed GNU AWK history by Aharon (Arnold) Robbins](http://www.skeeve.com/gnu-awk-and-me-2014.pdf).
+[Brief AWK history](https://en.wikipedia.org/wiki/AWK#History), [state of the AWK technologies](https://lwn.net/Articles/820829/). [Detailed GNU AWK history by Aharon (Arnold) Robbins](http://www.skeeve.com/gnu-awk-and-me-2014.pdf).
 
 # Full documentation, guides and books
 
@@ -24,13 +24,14 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [A guide to intermediate awk scripting](https://opensource.com/article/19/11/intermediate-awk-scripting)
  * [Advance your awk skills with two easy tutorials](https://opensource.com/article/19/10/advanced-awk)
  * [awk is the coolest tool you don't know](https://portal.mozz.us/gemini/drewdevault.com/2021/05/03/awk-is-the-coolest-tool-you-dont-know.gmi)
+ * [GoAWK, an AWK interpreter written in Go](https://benhoyt.com/writings/goawk/)
 
 
 ## Documentation
 
  * [Gawk: Effective AWK Programming](https://www.gnu.org/software/gawk/manual/)
  * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/gawkinet.html)
- * man pages: [mawk](http://invisible-island.net/mawk/manpage/mawk.html), [gawk](https://linux.die.net/man/1/gawk)
+ * man pages: [gawk](https://linux.die.net/man/1/gawk), [mawk](http://invisible-island.net/mawk/manpage/mawk.html), [nawk](https://linux.die.net/man/1/nawk)
 
 
 ## Books
