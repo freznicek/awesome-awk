@@ -45,9 +45,17 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 
   
 # AWK libraries
- * [e36freak/awk-libs](https://github.com/e36freak/awk-libs)
- * [dubiousjim/awkenough](https://github.com/dubiousjim/awkenough)
+ * [GNU awk libraries](https://github.com/e36freak/awk-libs)
+ * [Awkenough libs and tools](https://github.com/dubiousjim/awkenough)
  * [ANSI graphics library (in gawk)](https://github.com/patsie75/awk-glib)
+
+
+# Projects written in AWK
+ * [CHIP-8 emulator in gawk](https://github.com/patsie75/awk-chip8)
+ * [A console videoplayer in gawk and ffmpeg](https://github.com/patsie75/awk-videoplayer)
+ * [Draw 3D objects on your terminal with awk](https://github.com/patsie75/awk-3d)
+ * [Mandelbrot generator with zoom in awk](https://github.com/patsie75/awk-mandelbrot)
+ * [encode and decode base64 data](https://github.com/patsie75/awk-base64)
 
 
 # [AWK Implementations](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations)
