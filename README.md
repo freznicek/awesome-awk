@@ -47,7 +47,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
 # AWK libraries
  * [e36freak/awk-libs](https://github.com/e36freak/awk-libs)
  * [dubiousjim/awkenough](https://github.com/dubiousjim/awkenough)
- * [patsie75/awk-glib](https://github.com/patsie75/awk-glib)
+ * [ANSI graphics library (in gawk)](https://github.com/patsie75/awk-glib)
 
 # Nowadays [AWK Implementations](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations)
  * recommended
