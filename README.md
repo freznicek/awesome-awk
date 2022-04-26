@@ -25,6 +25,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [Advance your awk skills with two easy tutorials](https://opensource.com/article/19/10/advanced-awk)
  * [awk is the coolest tool you don't know](https://portal.mozz.us/gemini/drewdevault.com/2021/05/03/awk-is-the-coolest-tool-you-dont-know.gmi)
  * [Learn by example: GNU AWK](https://learnbyexample.gumroad.com/l/gnu_awk)
+ * [8 Levels of Using awk in Linux](https://medium.com/techtofreedom/8-levels-of-using-awk-in-linux-f6a875c504d1)
  * [GoAWK, an AWK interpreter written in Go](https://benhoyt.com/writings/goawk/)
 
 
