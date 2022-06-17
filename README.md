@@ -29,18 +29,22 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [GoAWK, an AWK interpreter written in Go](https://benhoyt.com/writings/goawk/)
 
 
-## Documentation
+## Documentation and manual pages
 
  * [Gawk: Effective AWK Programming](https://www.gnu.org/software/gawk/manual/)
  * [Gawkinet: TCP/IP Internetworking with Gawk](https://www.gnu.org/software/gawk/manual/gawkinet/gawkinet.html)
- * man pages: [gawk](https://linux.die.net/man/1/gawk), [mawk](http://invisible-island.net/mawk/manpage/mawk.html), [nawk](https://linux.die.net/man/1/nawk)
+ * manual pages:
+   * [gawk](https://man.archlinux.org/man/gawk.1)
+   * [mawk](https://linux.die.net/man/1/mawk)
+   * [nawk](https://man.archlinux.org/man/nawk.1)
+   * [busybox awk](https://man.archlinux.org/man/busybox.1.en#awk)
 
 
 ## Books
  * [Effective awk Programming: Universal Text Processing and Pattern Matching](https://www.amazon.com/Effective-awk-Programming-Universal-Processing/dp/1491904615/)
  * [sed & awk](https://www.amazon.com/Sed-Awk-Dale-Dougherty/dp/1565922255/)
- * [The AWK Programming Language](https://www.amazon.com/AWK-Programming-Language-Alfred-Aho/dp/020107981X/)
- * [AWK Programming: Questions and Answers](https://www.amazon.co.uk/AWK-Programming-Questions-George-Duckett-ebook/dp/B00RWVOLTG)
+ * [The AWK Programming Language](https://www.amazon.com/AWK-Programming-Language-Alfred-Aho/dp/020107981X/) ([available online](https://ia903404.us.archive.org/0/items/pdfy-MgN0H1joIoDVoIC7/The_AWK_Programming_Language.pdf))
+ * [AWK Programming: Questions and Answers](https://books.apple.com/us/book/awk-programming-questions-and-answers-2020-edition/id1491319228)
  * [AWK programming](https://books.google.cz/books/about/Awk_Programming.html?id=69oEAAAACAAJ)
  * [Learning AWK Programming: A fast, and simple cutting-edge utility for text-processing on the Unix-like environment](https://www.amazon.com/Learning-AWK-Programming-cutting-edge-text-processing-ebook/dp/B07BT98HDS)
  * [The awk language: Linux Intermediate](https://books.google.com/books?id=pUO1CwAAQBAJ&dq=bibliogroup:%22Linux+Intermediate%22)
