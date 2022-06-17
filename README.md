@@ -1,4 +1,5 @@
 # awesome-awk
+![](/AwesomeAWK.svg)
 A curated list of awesome AWK frameworks, libraries, software and resources.
 
 [Brief AWK history](https://en.wikipedia.org/wiki/AWK#History), [state of the AWK technologies](https://lwn.net/Articles/820829/). [Detailed GNU AWK history by Aharon (Arnold) Robbins](http://www.skeeve.com/gnu-awk-and-me-2014.pdf).
