@@ -63,6 +63,7 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [Draw 3D objects on your terminal with awk](https://github.com/patsie75/awk-3d)
  * [Mandelbrot generator with zoom in awk](https://github.com/patsie75/awk-mandelbrot)
  * [encode and decode base64 data](https://github.com/patsie75/awk-base64)
+ * [Translate Shell gawk command-line translator powered by Google, Bing, Yandex and Apertium online translators](https://www.soimort.org/translate-shell/)
 
 
 # [AWK Implementations](https://en.wikipedia.org/wiki/AWK#Versions_and_implementations)
