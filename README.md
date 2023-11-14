@@ -73,4 +73,3 @@ A curated list of awesome AWK frameworks, libraries, software and resources.
  * [BusyBox project](https://www.busybox.net/) contains also independent awk implementation ([source-code](https://git.busybox.net/busybox))
  * [jawk](http://jawk.sourceforge.net/)
  * [pawk](https://github.com/jasontrigg0/pawk)
-
